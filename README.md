@@ -58,6 +58,36 @@ python3 app.py
 - STT 체크박스는 `faster-whisper`가 설치되어 있어야 의미 있음 (없으면 자동으로 OCR만 실행)
 - 실제로 영상 업로드해서 끝까지 동작하는 것 확인함 (아래 "동작 확인" 참고)
 
+## 클라우드 배포 (내 컴퓨터가 꺼져 있어도 접속 가능하게)
+
+`127.0.0.1`은 본인 컴퓨터 안에서만 열리는 주소라서, 컴퓨터가 꺼지면 당연히 접속이 끊긴다.
+다른 사람이 24시간 아무 때나 접속하게 하려면 **클라우드 서버**에 올려야 한다.
+이 저장소에는 `Dockerfile`이 포함되어 있어서, 서버 쪽에 ffmpeg/tesseract(한국어팩)를
+자동으로 설치하도록 되어 있다 — 즉 접속하는 사람도, 배포하는 사람도 따로 설치할 게 없다.
+
+**Render (무료 티어) 로 배포하는 법**
+
+1. https://render.com 가입 (GitHub 계정으로 로그인 가능)
+2. "New +" → "Web Service" 선택
+3. 이 GitHub 저장소(`kim090624/weird-ad`) 연결
+4. 설정:
+   - **Environment**: `Docker` 선택 (저장소에 있는 `Dockerfile`을 자동으로 인식함)
+   - **Instance Type**: Free
+5. "Environment Variables"에 추가:
+   - `ANTHROPIC_API_KEY` = `sk-ant-...` (본인 키)
+6. "Create Web Service" 클릭 → 빌드 로그가 뜨면서 몇 분 기다리면
+   `https://weird-ad-xxxx.onrender.com` 같은 주소가 생성됨
+7. 이 주소를 아무한테나 공유하면, 본인 컴퓨터가 꺼져 있어도 접속 가능
+
+**주의할 점**
+- 무료 티어는 한동안 아무도 안 들어오면 서버가 잠들었다가, 누가 들어오면 다시 깨어남
+  (깨어나는 데 몇십 초 정도 걸릴 수 있음 — 해커톤 심사 직전에 한 번 미리 접속해서 깨워두면 좋음)
+- faster-whisper(STT)는 처음 실행 시 모델 파일을 받느라 느릴 수 있음 — 무료 티어 메모리가
+  부족하면 STT 체크박스를 끄고 OCR만 쓰는 것도 방법
+- Dockerfile은 이 환경(개발 샌드박스)에 Docker가 없어서 직접 빌드 테스트는 못 했음.
+  `ffmpeg`/`tesseract-ocr`/`tesseract-ocr-kor`는 Debian 계열 표준 패키지명이라
+  일반적으로 문제없이 설치되지만, Render에 처음 배포할 때 빌드 로그를 한 번 확인할 것
+
 ## CLI로 실행하기 (터미널에서 바로)
 
 ```bash

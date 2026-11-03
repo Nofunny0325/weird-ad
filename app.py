@@ -4,9 +4,12 @@
 소비자가 브라우저에서 영상을 업로드하면:
   업로드 받기 -> OCR/STT 추출 -> 금지어/오인유발어 판정 -> 결과를 화면에 보여줌
 
-실행:
+실행 (로컬):
   python3 app.py
   그 다음 브라우저에서 http://127.0.0.1:5000 접속
+
+배포: Dockerfile로 Render 등 클라우드에 올리면 PORT 환경변수를 읽어서
+0.0.0.0에 바인딩함 (README의 "클라우드 배포" 참고).
 
 ANTHROPIC_API_KEY 환경변수가 없으면 오인유발어 분석 단계에서 에러 메시지를 그대로 화면에 보여줌
 (서버가 죽지는 않음).
@@ -110,4 +113,9 @@ def analyze():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    # 로컬 테스트: host="127.0.0.1" (내 컴퓨터에서만 접속)
+    # 배포(Render 등) 환경: PORT 환경변수를 넘겨주고, 0.0.0.0으로 바인딩해야
+    # 플랫폼이 외부 요청을 이 서버로 전달할 수 있음
+    port = int(os.environ.get("PORT", 5000))
+    debug = os.environ.get("FLASK_DEBUG", "1") == "1"
+    app.run(host="0.0.0.0", port=port, debug=debug)
