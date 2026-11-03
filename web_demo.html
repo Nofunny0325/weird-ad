@@ -1,0 +1,549 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>애드스캔</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* 레이아웃: 좌측 "사건철" 단계 레일 + 우측 단일 심사 카드. 판독 서류를 다루는 듯한 절제된 편집 디자인. */
+  :root {
+    --bg: #f3efe6;
+    --surface: #fffdf8;
+    --surface-2: #ece6d8;
+    --fg: #1c1a16;
+    --muted: #6b6454;
+    --border: #d9d1bd;
+    --accent: #23344d;
+    --accent-fg: #f3efe6;
+    --danger: #a3291e;
+    --danger-bg: #f7e4e0;
+    --warn: #8a5a12;
+    --warn-bg: #f7ecd6;
+    --ok: #28623f;
+    --ok-bg: #e3efe3;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15130f;
+      --surface: #1d1a14;
+      --surface-2: #26221a;
+      --fg: #ecE6d8;
+      --muted: #a39a85;
+      --border: #3a3426;
+      --accent: #d7c9a3;
+      --accent-fg: #15130f;
+      --danger: #e8897c;
+      --danger-bg: #3a211d;
+      --warn: #e3b35c;
+      --warn-bg: #3a3017;
+      --ok: #7fc89a;
+      --ok-bg: #1d2e22;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15130f;
+    --surface: #1d1a14;
+    --surface-2: #26221a;
+    --fg: #ecE6d8;
+    --muted: #a39a85;
+    --border: #3a3426;
+    --accent: #d7c9a3;
+    --accent-fg: #15130f;
+    --danger: #e8897c;
+    --danger-bg: #3a211d;
+    --warn: #e3b35c;
+    --warn-bg: #3a3017;
+    --ok: #7fc89a;
+    --ok-bg: #1d2e22;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    margin: 0;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 32px 64px;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 720px) {
+    .wrap { grid-template-columns: 1fr; }
+    .rail { flex-direction: row; overflow-x: auto; gap: 10px; }
+    .rail-step { flex: 0 0 auto; }
+  }
+
+  header.top {
+    max-width: 920px;
+    margin: 0 auto 28px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 6px 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+
+  .rail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .rail-step {
+    display: flex;
+    gap: 10px;
+    padding: 10px 10px;
+    border-radius: 8px;
+    min-width: 0;
+  }
+  .rail-step .dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    flex: none;
+    margin-top: 1px;
+  }
+  .rail-step.active .dot { border-color: var(--accent); color: var(--accent); background: var(--surface-2); }
+  .rail-step.done .dot { border-color: var(--ok); color: var(--ok); background: var(--ok-bg); }
+  .rail-step .label { font-size: 13px; font-weight: 500; line-height: 1.4; }
+  .rail-step .desc { font-size: 11.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+
+  main { min-width: 0; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .card + .card { margin-top: 16px; }
+
+  label.field-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--fg);
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  textarea {
+    width: 100%;
+    min-height: 110px;
+    resize: vertical;
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.6;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--fg);
+  }
+  textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .examples { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .chip {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--fg); }
+
+  .wordlists { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  @media (max-width: 560px) { .wordlists { grid-template-columns: 1fr; } }
+  .wl-box {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: var(--surface-2);
+    min-width: 0;
+  }
+  .wl-title { font-size: 11.5px; font-weight: 600; margin-bottom: 6px; }
+  .wl-title.danger { color: var(--danger); }
+  .wl-title.warn { color: var(--warn); }
+  .wl-words { display: flex; flex-wrap: wrap; gap: 5px; }
+  .wl-words span {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 2px 6px;
+  }
+
+  button.run {
+    margin-top: 16px;
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent);
+    color: var(--accent-fg);
+    font-family: var(--sans);
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button.run:disabled { opacity: 0.55; cursor: default; }
+  button.run:not(:disabled):hover { filter: brightness(1.08); }
+
+  .result { margin-top: 18px; }
+  .verdict-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 999px;
+  }
+  .verdict-badge.danger { background: var(--danger-bg); color: var(--danger); }
+  .verdict-badge.warn { background: var(--warn-bg); color: var(--warn); }
+  .verdict-badge.ok { background: var(--ok-bg); color: var(--ok); }
+
+  .match-row {
+    display: flex; gap: 10px; align-items: baseline;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+  .match-row:first-of-type { border-top: none; }
+  .match-row .w {
+    font-family: var(--mono);
+    font-weight: 600;
+    flex: none;
+    min-width: 72px;
+  }
+  .match-row .s { color: var(--muted); min-width: 0; }
+
+  .ai-box {
+    margin-top: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    background: var(--surface-2);
+    white-space: pre-wrap;
+  }
+  .ai-box .tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .note code {
+    font-family: var(--mono);
+    background: var(--surface-2);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11.5px;
+  }
+
+  [hidden] { display: none !important; }
+</style>
+
+<header class="top">
+  <div class="eyebrow">부당광고 판별 파이프라인 · 심사 엔진 데모</div>
+  <h1>애드스캔</h1>
+  <p class="sub">영상에서 추출된 자막·나레이션 텍스트를 넣으면, 금지어·오인유발어 사전과 대조해 즉시 심사합니다. 오인유발어가 감지되면 AI가 문맥을 다시 읽고 최종 판정합니다.</p>
+</header>
+
+<div class="wrap">
+  <nav class="rail" id="rail">
+    <div class="rail-step active" data-step="1">
+      <div class="dot">1</div>
+      <div><div class="label">텍스트 입력</div><div class="desc">OCR·STT로 추출됐다고 가정한 텍스트</div></div>
+    </div>
+    <div class="rail-step" data-step="2">
+      <div class="dot">2</div>
+      <div><div class="label">금지어 대조</div><div class="desc">하나라도 걸리면 즉시 확정</div></div>
+    </div>
+    <div class="rail-step" data-step="3">
+      <div class="dot">3</div>
+      <div><div class="label">오인유발어 대조</div><div class="desc">걸리면 AI 문맥 분석 호출</div></div>
+    </div>
+    <div class="rail-step" data-step="4">
+      <div class="dot">4</div>
+      <div><div class="label">최종 판정</div><div class="desc">근거와 함께 결과 표시</div></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="card">
+      <label class="field-label" for="inputText">추출된 텍스트</label>
+      <textarea id="inputText" placeholder="예: 이 제품을 드시면 당뇨가 완치됩니다...">이 제품은 업계 최고의 효과로 하루 만에 다이어트에 성공할 수 있습니다.</textarea>
+      <div class="examples">
+        <button class="chip" data-ex="banned">예시: 금지어 포함</button>
+        <button class="chip" data-ex="ambiguous">예시: 오인유발어만</button>
+        <button class="chip" data-ex="clean">예시: 문제 없음</button>
+      </div>
+
+      <div class="wordlists">
+        <div class="wl-box">
+          <div class="wl-title danger">금지어 (즉시 판정)</div>
+          <div class="wl-words" id="bannedWords"></div>
+        </div>
+        <div class="wl-box">
+          <div class="wl-title warn">오인유발어 (AI 분석 대상)</div>
+          <div class="wl-words" id="ambiguousWords"></div>
+        </div>
+      </div>
+
+      <button class="run" id="runBtn">심사하기</button>
+    </div>
+
+    <div class="card result" id="resultCard" hidden>
+      <div id="verdictArea"></div>
+      <div id="matchesArea"></div>
+      <div id="aiArea"></div>
+    </div>
+
+    <p class="note">
+      실제 파이프라인은 영상을 업로드하면 OCR(화면 텍스트)과 STT(음성)로 이 텍스트를 자동 추출합니다.
+      이 데모는 브라우저 보안 정책상 영상 처리 엔진을 직접 돌릴 수 없어, 추출 이후 단계인
+      <code>금지어/오인유발어 판정 + AI 문맥 분석</code> 로직을 그대로 체험하도록 만들었습니다.
+      오인유발어가 감지되면 실제로 Claude가 호출되어 문장을 심사합니다.
+    </p>
+  </main>
+</div>
+
+<script>
+(function () {
+  var BANNED = [
+    { word: "완치", category: "효능과장" },
+    { word: "부작용 없음", category: "안전성 허위" },
+    { word: "전액 환불 보장", category: "허위 보증" }
+  ];
+  var AMBIGUOUS = [
+    { word: "최고", category: "최상급 표현" },
+    { word: "즉시 효과", category: "효능 시점 과장" },
+    { word: "하루 만에", category: "효능 시점 과장" },
+    { word: "국내 유일", category: "독점성 과장" }
+  ];
+
+  var EXAMPLES = {
+    banned: "이 제품을 꾸준히 드시면 당뇨가 완치됩니다. 부작용 없음이 임상적으로 입증되었습니다.",
+    ambiguous: "업계 최고의 품질로 하루 만에 피부가 달라지는 걸 경험하세요.",
+    clean: "매일 한 포씩 챙겨 드시면 건강한 습관을 만드는 데 도움이 됩니다."
+  };
+
+  function renderWordChips(container, list) {
+    container.innerHTML = list.map(function (e) {
+      return '<span>' + e.word + '</span>';
+    }).join("");
+  }
+  renderWordChips(document.getElementById("bannedWords"), BANNED);
+  renderWordChips(document.getElementById("ambiguousWords"), AMBIGUOUS);
+
+  document.querySelectorAll(".chip[data-ex]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.getElementById("inputText").value = EXAMPLES[btn.dataset.ex];
+    });
+  });
+
+  function splitSentences(text) {
+    return text.split(/(?<=[.!?。])\s+|\n+/).map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  function findMatches(sentences, entries) {
+    var hits = [];
+    sentences.forEach(function (sentence) {
+      entries.forEach(function (entry) {
+        if (sentence.indexOf(entry.word) !== -1) {
+          hits.push({ entry: entry, sentence: sentence });
+        }
+      });
+    });
+    return hits;
+  }
+
+  function setStep(n, state) {
+    var el = document.querySelector('.rail-step[data-step="' + n + '"]');
+    if (!el) return;
+    el.classList.remove("active", "done");
+    if (state) el.classList.add(state);
+  }
+  function resetSteps() {
+    [1, 2, 3, 4].forEach(function (n) { setStep(n, n === 1 ? "active" : null); });
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  var runBtn = document.getElementById("runBtn");
+  var resultCard = document.getElementById("resultCard");
+  var verdictArea = document.getElementById("verdictArea");
+  var matchesArea = document.getElementById("matchesArea");
+  var aiArea = document.getElementById("aiArea");
+
+  var sampleUse = (window.claude && window.claude.use) ? window.claude.use("sample") : Promise.resolve(null);
+
+  runBtn.addEventListener("click", function () {
+    runJudge();
+  });
+
+  async function runJudge() {
+    var text = document.getElementById("inputText").value.trim();
+    if (!text) return;
+
+    runBtn.disabled = true;
+    resultCard.hidden = false;
+    verdictArea.innerHTML = '<span class="verdict-badge warn">심사 중…</span>';
+    matchesArea.innerHTML = "";
+    aiArea.innerHTML = "";
+    resetSteps();
+
+    var sentences = splitSentences(text);
+
+    setStep(1, "done");
+    setStep(2, "active");
+    await tick();
+
+    var bannedHits = findMatches(sentences, BANNED);
+
+    if (bannedHits.length > 0) {
+      setStep(2, "done");
+      setStep(3, null);
+      setStep(4, "active");
+      renderVerdict("danger", "부당광고", "금지어 감지 — AI 호출 없이 즉시 확정");
+      renderMatches(bannedHits);
+      setStep(4, "done");
+      runBtn.disabled = false;
+      return;
+    }
+
+    setStep(2, "done");
+    setStep(3, "active");
+    await tick();
+
+    var ambiguousHits = findMatches(sentences, AMBIGUOUS);
+
+    if (ambiguousHits.length === 0) {
+      setStep(3, "done");
+      setStep(4, "done");
+      renderVerdict("ok", "문제 없음", "금지어·오인유발어 모두 미감지");
+      runBtn.disabled = false;
+      return;
+    }
+
+    renderMatches(ambiguousHits);
+
+    var sample = await sampleUse;
+    if (!sample) {
+      setStep(3, "done");
+      setStep(4, "done");
+      renderVerdict("warn", "AI 분석 불가", "이 보기에서는 Claude 호출을 사용할 수 없습니다");
+      aiArea.innerHTML = '<div class="ai-box"><span class="tag">안내</span>오인유발어는 감지됐지만, 이 화면에서는 AI 분석 기능을 쓸 수 없어요. claude.ai에서 이 페이지를 열면 실제 분석이 됩니다.</div>';
+      runBtn.disabled = false;
+      return;
+    }
+
+    setStep(3, "done");
+    setStep(4, "active");
+    aiArea.innerHTML = '<div class="ai-box"><span class="tag">AI 문맥 분석</span>생각 중…</div>';
+
+    var uniqueSentences = Array.from(new Set(ambiguousHits.map(function (h) { return h.sentence; })));
+    var prompt = "너는 표시·광고의 공정화에 관한 법률(표시광고법) 관점에서 광고 문구를 심사하는 보조 역할이다.\n" +
+      "아래 문장들에는 '오인 유발 가능 표현'으로 미리 분류된 단어가 포함되어 있다. 그 단어 자체는 금지어가 아니지만,\n" +
+      "문맥에 따라 소비자가 상품의 효능·성능·품질을 사실과 다르게 오인할 수 있다.\n\n" +
+      "각 문장이 과장되거나 근거 없는 주장과 결합되어 소비자를 오인시킬 가능성이 있는지 판단하라.\n\n" +
+      "심사할 문장:\n" + uniqueSentences.map(function (s) { return "- " + s; }).join("\n") + "\n\n" +
+      "반드시 아래 JSON 형식으로만 답하라 (다른 설명 금지):\n" +
+      '{"misleading": true/false, "reasoning": "전체 판단 근거 2~3문장"}';
+
+    try {
+      var parsed = await sample.json(prompt, { modelTier: "quick" });
+      var misleading = !!parsed.misleading;
+      var reasoning = parsed.reasoning || "";
+
+      if (misleading) {
+        renderVerdict("danger", "부당광고 추정", "AI 문맥 분석 결과 오인 가능성 있음");
+      } else {
+        renderVerdict("ok", "문제 없음", "AI 문맥 분석 결과 오인 가능성 낮음");
+      }
+      aiArea.innerHTML = '<div class="ai-box"><span class="tag">AI 문맥 분석 결과</span>' + escapeHtml(reasoning) + '</div>';
+    } catch (e) {
+      var copy = {
+        not_granted: "이 페이지의 Claude 호출을 허용하지 않으셨습니다.",
+        rate_limited: "호출이 많아 잠시 후 다시 시도해주세요.",
+        invalid_json: "AI가 형식에 맞지 않는 답을 했습니다. 다시 시도해주세요.",
+      }[e.code] || "AI 분석 중 오류가 발생했습니다 (" + e.code + ").";
+      renderVerdict("warn", "분석 실패", copy);
+      aiArea.innerHTML = '<div class="ai-box"><span class="tag">오류</span>' + escapeHtml(copy) + '</div>';
+    }
+
+    setStep(4, "done");
+    runBtn.disabled = false;
+  }
+
+  function renderVerdict(kind, label, sub) {
+    verdictArea.innerHTML =
+      '<span class="verdict-badge ' + kind + '">' + label + '</span>' +
+      '<div class="hint">' + escapeHtml(sub) + '</div>';
+  }
+
+  function renderMatches(hits) {
+    matchesArea.innerHTML = hits.map(function (h) {
+      return '<div class="match-row"><span class="w">' + escapeHtml(h.entry.word) + '</span>' +
+        '<span class="s">' + escapeHtml(h.sentence) + '</span></div>';
+    }).join("");
+  }
+
+  function tick() {
+    return new Promise(function (r) { setTimeout(r, 120); });
+  }
+})();
+</script>
