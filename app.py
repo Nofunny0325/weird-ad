@@ -17,6 +17,7 @@ ANTHROPIC_API_KEY 환경변수가 없으면 오인유발어 분석 단계에서 
 
 import os
 import traceback
+import uuid
 from pathlib import Path
 
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -58,10 +59,10 @@ def analyze():
     run_stt = request.form.get("run_stt") == "on"
 
     # 1. 임시 저장
-    tmp_path = UPLOAD_TMP_DIR / file.filename
-    file.save(tmp_path)
+    tmp_path = UPLOAD_TMP_DIR / f'{uuid.uuid4().hex}{ext}'
 
     try:
+        file.save(tmp_path)
         # 2. InputHandler로 정식 저장 위치 이동 + 검증
         input_handler = InputHandler()
         video = input_handler.handle_file_upload(str(tmp_path), file.filename)
@@ -117,5 +118,6 @@ if __name__ == "__main__":
     # 배포(Render 등) 환경: PORT 환경변수를 넘겨주고, 0.0.0.0으로 바인딩해야
     # 플랫폼이 외부 요청을 이 서버로 전달할 수 있음
     port = int(os.environ.get("PORT", 5000))
-    debug = os.environ.get("FLASK_DEBUG", "1") == "1"
-    app.run(host="0.0.0.0", port=port, debug=debug)
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    host = "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1"
+    app.run(host=host, port=port, debug=debug)

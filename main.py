@@ -41,7 +41,7 @@ def run_pipeline(
     # 3. 단어 사전 로드
     wordlists = WordLists.load(banned_path=banned_path, ambiguous_path=ambiguous_path)
 
-    # 4. 판단엔진 실행 (ANTHROPIC_API_KEY 환경변수 필요 — 오인유발어가 감지된 경우에만 호출됨)
+    # 4. 판단엔진 실행 (ANTHROPIC_API_KEY 환경변수 필요 — 주의 표현이 감지된 경우 호출 가능)
     judge_engine = JudgeEngine(wordlists=wordlists, ai_analyzer=AIContextAnalyzer())
     result = judge_engine.judge(extracted_text)
 
@@ -58,7 +58,7 @@ def print_dependency_check():
         print("\n  -> pip install faster-whisper  (STT 사용 시 필요)")
     if not status["pytesseract"]:
         print("\n  -> pip install pytesseract pillow")
-    print(f"\n  ANTHROPIC_API_KEY 설정됨: {'예' if os.environ.get('ANTHROPIC_API_KEY') else '아니오 (오인유발어 분석 시 필요)'}")
+    print(f"\n  ANTHROPIC_API_KEY 설정됨: {'예' if os.environ.get('ANTHROPIC_API_KEY') else '아니오 (주의 표현 문맥 분석 시 필요)'}")
 
 
 if __name__ == "__main__":

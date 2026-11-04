@@ -29,7 +29,8 @@
   </style>
 </head>
 <body>
-  <h1>부당광고 판별 데모</h1>
+  <h1>식품 광고 검토</h1>
+  <p>영상에서 주의 표현과 주변 문맥을 검토합니다. 제품 성분·인정 기능성·인체시험 대조는 아직 제공하지 않습니다.</p>
 
   <div class="deps">
     의존성: ffmpeg <span class="{{ 'ok' if deps.ffmpeg else 'bad' }}">{{ '설치됨' if deps.ffmpeg else '없음' }}</span> ·
@@ -62,19 +63,36 @@
     <div class="result">
       <h2>판정 결과 — {{ filename }}</h2>
 
-      {% if result.verdict.value == '부당광고' %}
-        <span class="badge unfair">부당광고</span>
-      {% elif result.verdict.value == '부당광고 추정' %}
-        <span class="badge likely">부당광고 추정</span>
+      {% if result.verdict.value == '위반 의심' %}
+        <span class="badge unfair">위반 의심</span>
+      {% elif result.verdict.value == '확인 필요' %}
+        <span class="badge likely">확인 필요</span>
       {% else %}
-        <span class="badge ok">문제 없음</span>
+        <span class="badge ok">검토 범위 내 주요 의심 없음</span>
+      {% endif %}
+      <p>{{ result.review_scope }} · 법적 위반 확정이나 적법 인증이 아닙니다.</p>
+      <h3>판단 이유</h3>
+      <ul>{% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}</ul>
+      <h3>확인하지 못한 항목과 검토 한계</h3>
+      <ul>{% for limitation in result.limitations %}<li>{{ limitation }}</li>{% endfor %}</ul>
+      {% if result.extraction_status %}
+      <p>추출 상태:
+        {% for source, status in result.extraction_status.items() %}
+          {{ '화면 글자' if source == 'ocr' else '음성' }}:
+          {{ {'completed':'추출 완료', 'empty':'텍스트 미추출', 'failed':'실패', 'skipped':'미실행'}.get(status, '미확인') }}
+        {% endfor %}
+      </p>
       {% endif %}
 
       {% if result.banned_hits %}
         <div class="hits">
-          <strong>금지어 감지:</strong>
+          <strong>우선 검토 표현:</strong>
           {% for h in result.banned_hits %}
-            <div class="hit-row"><span class="word">{{ h.entry.word }}</span>{{ h.matched_sentence }}</div>
+            <div class="hit-row"><span class="word">{{ h.entry.word }}</span>{{ h.matched_sentence }}
+              <p>{{ '화면 글자' if h.source == 'ocr' else '음성' }} · {% if h.start_sec is not none %}{{ '%.1f'|format(h.start_sec) }}–{{ '%.1f'|format(h.end_sec) }}초 (추출 구간){% else %}시간 미확인{% endif %}</p>
+              <p>유형: {{ h.entry.category }} · 근거: {{ h.entry.legal_basis or '미등록' }}</p>
+              <details><summary>주변 문맥</summary>{{ h.context }}</details>
+            </div>
           {% endfor %}
         </div>
       {% endif %}
@@ -83,7 +101,11 @@
         <div class="hits">
           <strong>오인유발어 감지:</strong>
           {% for h in result.ambiguous_hits %}
-            <div class="hit-row"><span class="word">{{ h.entry.word }}</span>{{ h.matched_sentence }}</div>
+            <div class="hit-row"><span class="word">{{ h.entry.word }}</span>{{ h.matched_sentence }}
+              <p>{{ '화면 글자' if h.source == 'ocr' else '음성' }} · {% if h.start_sec is not none %}{{ '%.1f'|format(h.start_sec) }}–{{ '%.1f'|format(h.end_sec) }}초 (추출 구간){% else %}시간 미확인{% endif %}</p>
+              <p>유형: {{ h.entry.category }} · 근거: {{ h.entry.legal_basis or '미등록' }}</p>
+              <details><summary>주변 문맥</summary>{{ h.context }}</details>
+            </div>
           {% endfor %}
         </div>
       {% endif %}
