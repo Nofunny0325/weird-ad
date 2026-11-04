@@ -37,6 +37,8 @@ class ExtractedText:
     video_id: str
     ocr_segments: list[TimedText] = field(default_factory=list)
     stt_segments: list[TimedText] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    channel_status: dict[str, str] = field(default_factory=dict)
 
     def all_segments(self) -> list[TimedText]:
         """시간순 정렬된 전체 텍스트 조각"""
@@ -94,9 +96,10 @@ class OCRExtractor:
                 text = " ".join(line.strip() for line in text.splitlines() if line.strip())
 
                 if not text:
+                    prev_text = None
                     continue
                 if text == prev_text:
-                    # 같은 자막이 계속 떠있는 경우 → 중복 저장하지 않음
+                    segments[-1].end_sec = end_sec
                     continue
 
                 prev_text = text
@@ -167,20 +170,37 @@ class TextExtractionService:
     def extract_all(
         self, video_id: str, video_path: Path, run_stt: bool = True
     ) -> ExtractedText:
-        ocr_segments = self.ocr.extract(video_path)
-
+        warnings = []
+        status = {}
+        ocr_segments = []
+        try:
+            ocr_segments = self.ocr.extract(video_path)
+            status['ocr'] = 'completed' if ocr_segments else 'empty'
+            if not ocr_segments:
+                warnings.append('화면에서 텍스트를 추출하지 못했습니다. 화면 확인이 필요합니다.')
+        except Exception:
+            status['ocr'] = 'failed'
+            warnings.append('화면 글자 추출에 실패했습니다. 화면 내용은 검토하지 못했습니다.')
         stt_segments: list[TimedText] = []
         if run_stt:
             try:
                 stt_segments = self.stt.extract(video_path)
-            except ImportError as e:
-                # STT 엔진 미설치 시 OCR 결과만으로 우선 진행 (파이프라인 전체를 막지 않음)
-                print(f"[경고] STT 건너뜀: {e}")
+                status['stt'] = 'completed' if stt_segments else 'empty'
+                if not stt_segments:
+                    warnings.append('음성을 추출하지 못했습니다. 무음 영상인지 인식 누락인지 확인이 필요합니다.')
+            except Exception:
+                status['stt'] = 'failed'
+                warnings.append('음성 분석에 실패했습니다. 음성 내용은 검토하지 못했습니다.')
+        else:
+            status['stt'] = 'skipped'
+            warnings.append('음성 분석을 실행하지 않았습니다. 음성 내용은 미검토입니다.')
 
         return ExtractedText(
             video_id=video_id,
             ocr_segments=ocr_segments,
             stt_segments=stt_segments,
+            warnings=warnings,
+            channel_status=status,
         )
 
 
