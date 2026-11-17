@@ -144,7 +144,12 @@ class OCRExtractor:
 @lru_cache(maxsize=2)
 def _whisper_model(model_path):
     from faster_whisper import WhisperModel
-    return WhisperModel(model_path, device='cpu', compute_type='int8', local_files_only=True)
+    threads = 1 if os.getenv('FOOD_AD_LOW_MEMORY') == '1' else 0
+    return WhisperModel(model_path, device='cpu', compute_type='int8', local_files_only=True, cpu_threads=threads)
+
+
+def release_whisper_model():
+    _whisper_model.cache_clear()
 
 
 class STTExtractor:

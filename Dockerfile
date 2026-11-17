@@ -22,6 +22,7 @@ COPY . .
 ARG WITH_STT=0
 ARG WHISPER_MODEL=base
 RUN if [ "$WITH_STT" = "1" ]; then python scripts/setup_models.py --with-stt --stt-model "$WHISPER_MODEL"; else python scripts/setup_models.py; fi
-ENV PORT=5000 HF_HUB_OFFLINE=1 FOOD_AD_STT_DIR=/app/storage/models/whisper-${WHISPER_MODEL}
+ENV PORT=5000 HF_HUB_OFFLINE=1 FOOD_AD_STT_DIR=/app/storage/models/whisper-${WHISPER_MODEL} \
+    FOOD_AD_LOW_MEMORY=1 OMP_THREAD_LIMIT=1
 EXPOSE 5000
 CMD ["python3", "app.py"]

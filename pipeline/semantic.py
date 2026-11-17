@@ -2,6 +2,7 @@
 
 from collections import Counter
 import math
+import os
 from pathlib import Path
 import re
 import unicodedata
@@ -100,8 +101,10 @@ class LocalE5:
         import onnxruntime as ort
         from tokenizers import Tokenizer
 
+        low_memory = os.getenv('FOOD_AD_LOW_MEMORY') == '1'
+        self.batch_size = 4 if low_memory else 16
         options = ort.SessionOptions()
-        options.intra_op_num_threads = 2
+        options.intra_op_num_threads = 1 if low_memory else 2
         options.inter_op_num_threads = 1
         self.session = ort.InferenceSession(str(model), sess_options=options, providers=['CPUExecutionProvider'])
         self.inputs = {item.name for item in self.session.get_inputs()}
@@ -113,8 +116,8 @@ class LocalE5:
     def encode(self, texts):
         np = self.np
         result = []
-        for i in range(0, len(texts), 16):
-            batch = self.tokenizer.encode_batch(['query: '+t for t in texts[i:i+16]])
+        for i in range(0, len(texts), self.batch_size):
+            batch = self.tokenizer.encode_batch(['query: '+t for t in texts[i:i+self.batch_size]])
             mask = np.array([x.attention_mask for x in batch], dtype=np.int64)
             values = {
                 'input_ids': np.array([x.ids for x in batch], dtype=np.int64),

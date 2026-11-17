@@ -1,19 +1,22 @@
 """Flask UI for local food-ad screening."""
+from functools import wraps
 import os
 from pathlib import Path
 import tempfile
+from threading import Lock
 import uuid
 
 from flask import Flask, render_template, request
 
 from pipeline.extractors import (
     MAX_VIDEO_SECONDS, ExtractedText, TimedText, TextExtractionService,
-    check_dependencies, probe_video,
+    check_dependencies, probe_video, release_whisper_model,
 )
 from pipeline.judge_engine import ROOT, default_engine
 
 app = Flask(__name__)
-app.config.update(MAX_CONTENT_LENGTH=64 * 1024 * 1024)
+app.config.update(MAX_CONTENT_LENGTH=64 * 1024 * 1024, LOW_MEMORY=os.getenv('FOOD_AD_LOW_MEMORY') == '1')
+analysis_slot = Lock()
 UPLOAD_TMP_DIR = ROOT / 'storage' / 'tmp_uploads'
 ALLOWED_EXT = {'.mp4', '.mov', '.mkv', '.webm'}
 MAX_TEXT_CHARS = 12_000
@@ -22,6 +25,20 @@ MAX_TEXT_CHARS = 12_000
 def page(*, result=None, full_text='', filename='', error='', status=200):
     return render_template('index.html', deps=check_dependencies(), result=result, error=error,
         filename=filename, full_text=full_text, max_duration=MAX_VIDEO_SECONDS, max_text=MAX_TEXT_CHARS), status
+
+
+def single_analysis_on_small_hosts(view):
+    @wraps(view)
+    def run():
+        if not app.config['LOW_MEMORY']:
+            return view()
+        if not analysis_slot.acquire(blocking=False):
+            return page(error='다른 검토가 진행 중입니다. 잠시 후 다시 시도하세요.', status=503)
+        try:
+            return view()
+        finally:
+            analysis_slot.release()
+    return run
 
 
 @app.errorhandler(413)
@@ -40,6 +57,7 @@ def health():
 
 
 @app.post('/review-text')
+@single_analysis_on_small_hosts
 def review_text():
     transcript = request.form.get('transcript', '').strip()
     if not transcript or len(transcript)>MAX_TEXT_CHARS:
@@ -52,6 +70,7 @@ def review_text():
 
 
 @app.post('/analyze')
+@single_analysis_on_small_hosts
 def analyze():
     file=request.files.get('video')
     ext=Path(file.filename or '').suffix.lower() if file else ''
@@ -67,8 +86,15 @@ def analyze():
                 return page(error='영상 형식 또는 재생 시간을 확인할 수 없습니다.',status=400)
             if duration>MAX_VIDEO_SECONDS:
                 return page(error=f'{MAX_VIDEO_SECONDS}초 이하 영상만 분석할 수 있습니다.',status=400)
-            service=TextExtractionService()
-            extracted=service.extract_all(uuid.uuid4().hex,path,run_stt=request.form.get('run_stt')=='on')
+            run_stt = request.form.get('run_stt') == 'on'
+            limit_memory = app.config['LOW_MEMORY'] and run_stt
+            if limit_memory:
+                default_engine.cache_clear()
+            try:
+                extracted = TextExtractionService().extract_all(uuid.uuid4().hex, path, run_stt=run_stt)
+            finally:
+                if limit_memory:
+                    release_whisper_model()
             result=default_engine().judge(extracted,request.form.get('product_id',''))
             return page(result=result,full_text=extracted.full_text(),filename=Path(file.filename or '동영상').name)
         except (FileNotFoundError, TimeoutError):

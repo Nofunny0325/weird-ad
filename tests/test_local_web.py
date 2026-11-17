@@ -2,7 +2,7 @@ import io
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import app as web
 from pipeline.extractors import ExtractedText, TimedText
@@ -50,6 +50,24 @@ class LocalWebTests(unittest.TestCase):
     def test_non_video_extension_is_rejected(self):
         response=web.app.test_client().post('/analyze',data={'video':(io.BytesIO(b'fixture'),'ad.exe')})
         self.assertEqual(response.status_code,400)
+
+
+    def test_memory_constrained_upload_releases_models_between_stages(self):
+        order = Mock()
+        order.load_e5.return_value = self.engine
+        order.extract.return_value = ExtractedText('id', ocr_segments=[TimedText('당뇨를 완치합니다.', 0, 1, 'ocr')])
+        with tempfile.TemporaryDirectory() as temp, \
+             patch.dict(web.app.config, LOW_MEMORY=True), \
+             patch.object(web, 'UPLOAD_TMP_DIR', Path(temp)), \
+             patch.object(web, 'probe_video', return_value=1), \
+             patch.object(web, 'default_engine', order.load_e5), \
+             patch.object(web, 'release_whisper_model', order.release_speech), \
+             patch.object(web.TextExtractionService, 'extract_all', order.extract):
+            response = web.app.test_client().post('/analyze', data={
+                'video': (io.BytesIO(b'fixture'), 'ad.mp4'), 'run_stt': 'on'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual([entry[0] for entry in order.mock_calls], [
+            'load_e5.cache_clear', 'extract', 'release_speech', 'load_e5'])
 
 
 if __name__=='__main__':
