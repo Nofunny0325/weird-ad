@@ -61,13 +61,14 @@ class LocalWebTests(unittest.TestCase):
              patch.object(web, 'UPLOAD_TMP_DIR', Path(temp)), \
              patch.object(web, 'probe_video', return_value=1), \
              patch.object(web, 'default_engine', order.load_e5), \
-             patch.object(web, 'release_whisper_model', order.release_speech), \
+             patch.object(web, 'trim_model_pages', order.trim_model_pages), \
              patch.object(web.TextExtractionService, 'extract_all', order.extract):
             response = web.app.test_client().post('/analyze', data={
                 'video': (io.BytesIO(b'fixture'), 'ad.mp4'), 'run_stt': 'on'})
         self.assertEqual(response.status_code, 200)
         self.assertEqual([entry[0] for entry in order.mock_calls], [
-            'load_e5.cache_clear', 'extract', 'release_speech', 'load_e5'])
+            'load_e5.cache_clear', 'trim_model_pages', 'extract', 'load_e5'])
+        self.assertTrue(order.extract.call_args.kwargs['isolate_stt'])
 
 
 if __name__=='__main__':

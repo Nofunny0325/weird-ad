@@ -1,7 +1,10 @@
 """Flask UI for local food-ad screening."""
+from ctypes import CDLL
 from functools import wraps
+import gc
 import os
 from pathlib import Path
+import sys
 import tempfile
 from threading import Lock
 import uuid
@@ -10,7 +13,7 @@ from flask import Flask, render_template, request
 
 from pipeline.extractors import (
     MAX_VIDEO_SECONDS, ExtractedText, TimedText, TextExtractionService,
-    check_dependencies, probe_video, release_whisper_model,
+    check_dependencies, probe_video,
 )
 from pipeline.judge_engine import ROOT, default_engine
 
@@ -39,6 +42,14 @@ def single_analysis_on_small_hosts(view):
         finally:
             analysis_slot.release()
     return run
+
+
+def trim_model_pages():
+    gc.collect()
+    if sys.platform == 'linux':
+        trim = getattr(CDLL(None), 'malloc_trim', None)
+        if trim is not None:
+            trim(0)
 
 
 @app.errorhandler(413)
@@ -90,11 +101,10 @@ def analyze():
             limit_memory = app.config['LOW_MEMORY'] and run_stt
             if limit_memory:
                 default_engine.cache_clear()
-            try:
-                extracted = TextExtractionService().extract_all(uuid.uuid4().hex, path, run_stt=run_stt)
-            finally:
-                if limit_memory:
-                    release_whisper_model()
+                trim_model_pages()
+            extracted = TextExtractionService().extract_all(
+                uuid.uuid4().hex, path, run_stt=run_stt, isolate_stt=limit_memory,
+            )
             result=default_engine().judge(extracted,request.form.get('product_id',''))
             return page(result=result,full_text=extracted.full_text(),filename=Path(file.filename or '동영상').name)
         except (FileNotFoundError, TimeoutError):

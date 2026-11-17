@@ -13,9 +13,12 @@
   - 파이썬: pip install pytesseract pillow faster-whisper
 """
 
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
+import json
+import logging
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import shutil
 import os
@@ -27,7 +30,8 @@ from PIL import Image
 import pytesseract
 
 MAX_VIDEO_SECONDS = 180
-DEFAULT_STT_DIR = Path(__file__).resolve().parents[1] / 'storage' / 'models' / 'whisper-small'
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_STT_DIR = ROOT / 'storage' / 'models' / 'whisper-small'
 _INPUT_OPTIONS = ['-protocol_whitelist','file,pipe','-format_whitelist','mov,matroska,webm']
 
 
@@ -148,8 +152,15 @@ def _whisper_model(model_path):
     return WhisperModel(model_path, device='cpu', compute_type='int8', local_files_only=True, cpu_threads=threads)
 
 
-def release_whisper_model():
-    _whisper_model.cache_clear()
+def _extract_speech_in_worker(video_path: Path) -> list[TimedText]:
+    completed = subprocess.run(
+        [sys.executable, '-m', 'pipeline.extractors', str(video_path.resolve())],
+        cwd=ROOT, capture_output=True, timeout=240,
+    )
+    if completed.returncode:
+        logging.getLogger(__name__).warning('Speech worker exited with status %s', completed.returncode)
+        raise RuntimeError('Speech worker exited before returning a transcript')
+    return [TimedText(**segment) for segment in json.loads(completed.stdout)]
 
 
 class STTExtractor:
@@ -212,7 +223,7 @@ class TextExtractionService:
         self.stt = stt or STTExtractor()
 
     def extract_all(
-        self, video_id: str, video_path: Path, run_stt: bool = True
+        self, video_id: str, video_path: Path, run_stt: bool = True, *, isolate_stt: bool = False
     ) -> ExtractedText:
         warnings = []
         status = {}
@@ -228,7 +239,8 @@ class TextExtractionService:
         stt_segments: list[TimedText] = []
         if run_stt:
             try:
-                stt_segments = self.stt.extract(video_path)
+                extract_speech = _extract_speech_in_worker if isolate_stt else self.stt.extract
+                stt_segments = extract_speech(video_path)
                 status['stt'] = 'completed' if stt_segments else 'empty'
                 if not stt_segments:
                     warnings.append('음성을 추출하지 못했습니다. 무음 영상인지 인식 누락인지 확인이 필요합니다.')
@@ -267,3 +279,8 @@ def check_dependencies() -> dict[str, bool]:
     except ImportError:
         status["faster_whisper"] = False
     return status
+
+
+if __name__ == '__main__':
+    segments = STTExtractor().extract(Path(sys.argv[1]))
+    print(json.dumps([asdict(segment) for segment in segments]))
