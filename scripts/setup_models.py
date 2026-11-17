@@ -11,6 +11,10 @@ E5_FILES = {
     'model.onnx': ('model_qint8_avx512_vnni.onnx','dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88'),
     'tokenizer.json': ('tokenizer.json','0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39'),
 }
+WHISPER_REVISIONS = {
+    'small': '536b0662742c02347bc0e980a01041f333bce120',
+    'base': 'ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66',
+}
 
 
 def checksum(path):
@@ -44,12 +48,15 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--e5-dir',type=Path,default=ROOT/'storage'/'models'/'e5')
     parser.add_argument('--with-stt',action='store_true',help='Also install the optional Whisper model')
+    parser.add_argument('--stt-model',choices=WHISPER_REVISIONS,default='small',
+                        help='Whisper model to install when --with-stt is enabled')
     args=parser.parse_args()
     setup_e5(args.e5_dir)
     if args.with_stt:
         from huggingface_hub import snapshot_download
-        snapshot_download('Systran/faster-whisper-small',revision='536b0662742c02347bc0e980a01041f333bce120',
-            local_dir=ROOT/'storage'/'models'/'whisper-small',
+        model = args.stt_model
+        snapshot_download(f'Systran/faster-whisper-{model}',revision=WHISPER_REVISIONS[model],
+            local_dir=ROOT/'storage'/'models'/f'whisper-{model}',
             allow_patterns=['config.json','model.bin','tokenizer.json','vocabulary.*'],token=False)
 
 

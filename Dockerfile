@@ -20,7 +20,8 @@ COPY . .
 # Public weights are fetched once during the build; inference needs no network.
 # Build with --build-arg WITH_STT=1 to also include the optional speech model.
 ARG WITH_STT=0
-RUN if [ "$WITH_STT" = "1" ]; then python scripts/setup_models.py --with-stt; else python scripts/setup_models.py; fi
-ENV PORT=5000 HF_HUB_OFFLINE=1
+ARG WHISPER_MODEL=base
+RUN if [ "$WITH_STT" = "1" ]; then python scripts/setup_models.py --with-stt --stt-model "$WHISPER_MODEL"; else python scripts/setup_models.py; fi
+ENV PORT=5000 HF_HUB_OFFLINE=1 FOOD_AD_STT_DIR=/app/storage/models/whisper-${WHISPER_MODEL}
 EXPOSE 5000
 CMD ["python3", "app.py"]

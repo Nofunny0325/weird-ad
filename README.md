@@ -35,7 +35,7 @@ python -m venv .venv
 
 ## Docker
 
-`docker build -t weird-ad .`로 공개 E5 모델이 포함된 이미지를 만들고, `docker run --rm -p 5000:5000 weird-ad`로 실행합니다. 음성 인식 모델까지 포함하려면 빌드에 `--build-arg WITH_STT=1`을 추가합니다. 외부 네트워크는 모델 설치 또는 빌드에만 필요합니다. 영상은 요청 중 임시 보관하며, 지원 길이는 180초 이하이고 업로드 요청은 64 MiB 미만입니다.
+`docker build -t weird-ad .`로 공개 E5 모델이 포함된 이미지를 만들고, `docker run --rm -p 5000:5000 weird-ad`로 실행합니다. 빌드에 `--build-arg WITH_STT=1`을 추가하면 메모리 사용량이 적은 다국어 Whisper `base`가 포함됩니다. 여유 메모리가 있는 환경에서 `small`을 쓰려면 `--build-arg WHISPER_MODEL=small`을 추가합니다. 외부 네트워크는 모델 설치 또는 빌드에만 필요합니다. 영상은 요청 중 임시 보관하며, 지원 길이는 180초 이하이고 업로드 요청은 64 MiB 미만입니다.
 
 ## 검토 범위
 
