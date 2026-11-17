@@ -1,5 +1,7 @@
 # 인수 확인: 2026-11-04
 
+> 이 문서는 최초 포크 상태의 기록입니다. 현재 로컬 판정과 실행 방식은 저장소 README를 참고하세요.
+
 - 사용자 포크: https://github.com/Nofunny0325/weird-ad
 - 원 저장소: https://github.com/kim090624/weird-ad
 - 확인 기준 커밋: 0ac9058a1db687cfda5d96f5de541c2f569f992f

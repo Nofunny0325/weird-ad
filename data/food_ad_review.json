@@ -1,0 +1,1443 @@
+{
+  "as_of": "2026-11-17",
+  "banned": [
+    {
+      "word": "골다공증 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49028",
+      "source_title": "가정의 달 건강기능식품 등 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "법정 위험 감소 기능과 직접 예방 주장을 구분."
+    },
+    {
+      "word": "골다공증 방지",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "감기 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48237",
+      "source_title": "가정의 달 온라인 광고 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품 중심 점검",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "염증 제거",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48237",
+      "source_title": "가정의 달 온라인 광고 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품 중심 점검",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "이명 치료제",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50117",
+      "source_title": "이석·이명 광고 점검",
+      "source_locator": "PDF 2쪽 및 붙임 1 표 8번",
+      "source_product_scope": "건강기능식품 사례(붙임 1의 8번)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "치매 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "source_title": "수험생 대상 식품·의약품 단속",
+      "source_locator": "PDF 3쪽",
+      "source_product_scope": "식품 혼합(붙임 일부 건기식 명시)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "이 표현은 출처의 식품 혼합 사례. 직접 예방으로 광고할 때 탐지."
+    },
+    {
+      "word": "암 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49580",
+      "source_title": "명절 온라인 식품 광고 점검",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "다낭성난소증후군 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48995",
+      "source_title": "SNS 숏폼 광고 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "탈모 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49936",
+      "source_title": "가정의 달 건강기능식품 등 점검",
+      "source_locator": "PDF 6쪽(건기식 해시태그)",
+      "source_product_scope": "건강기능식품 사례(붙임 6쪽)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해시태그 표기를 보통 띄어쓰기로 정리."
+    },
+    {
+      "word": "당뇨 개선제",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48303",
+      "source_title": "당뇨 표방 일반식품 온라인 단속",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "일반식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "일반식품 사례에서 가져온 동일 유형의 건기식 광고 탐지 후보."
+    },
+    {
+      "word": "당뇨약",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48303",
+      "source_title": "당뇨 표방 일반식품 온라인 단속",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "일반식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "병용주의 문구와 제품 자체를 당뇨약으로 소개하는 문구를 구분."
+    },
+    {
+      "word": "혈당약",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48303",
+      "source_title": "당뇨 표방 일반식품 온라인 단속",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "일반식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "관절약",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148921580",
+      "source_title": "상습 위반업체 온라인 합동점검",
+      "source_locator": "정책브리핑 본문",
+      "source_product_scope": "건강기능식품 사례(관절약)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "키크는 약",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49775",
+      "source_title": "키 성장 표방 식품·의약품 점검",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "먹는 탈모약",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48973",
+      "source_title": "탈모 관련 온라인 광고 점검",
+      "source_locator": "PDF 1~2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "신경안정제",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "혈행 개선제",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "source_title": "수험생 대상 식품·의약품 단속",
+      "source_locator": "PDF 3쪽",
+      "source_product_scope": "식품 혼합(붙임 일부 건기식 명시)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "인정받은 ‘혈행 개선에 도움’은 의약품 명칭과 다름."
+    },
+    {
+      "word": "혈행순환개선제",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49936",
+      "source_title": "가정의 달 건강기능식품 등 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "먹는 위고비",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 8쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "비만 치료제",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 7쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품을 ‘혁신적인 비만 치료제’라고 소개한 사례에서 핵심 구절을 추출."
+    },
+    {
+      "word": "식욕억제제",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48995",
+      "source_title": "SNS 숏폼 광고 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "천연 인슐린",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49936",
+      "source_title": "가정의 달 건강기능식품 등 점검",
+      "source_locator": "PDF 6쪽(침출차)",
+      "source_product_scope": "일반식품(침출차)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "일반식품 사례에서 가져온 건기식 광고 검토 신호."
+    },
+    {
+      "word": "집중력 높이는 약",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "source_title": "수험생 대상 식품·의약품 단속",
+      "source_locator": "PDF 3쪽",
+      "source_product_scope": "식품 혼합(붙임 일부 건기식 명시)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "24시간 지방소멸",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 7쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "매일-2kg 감량",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 6쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "숫자·단위·기간을 바꾼 표현은 별도 패턴 검토."
+    },
+    {
+      "word": "폭식 불가능",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 7쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "24시간 지흡",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 6쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "지방흡입술을 뜻하는 줄임말을 제품 효능처럼 사용."
+    },
+    {
+      "word": "혈관 청소",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "혈액 청소",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 8쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 효능으로 말하는 긍정적 광고 주장인지 확인. 부정·인용·주의 맥락은 별도 처리."
+    },
+    {
+      "word": "약사가 추천합니다",
+      "category": "소비자 기만",
+      "legal_basis": "식품표시광고법 제8조 제1항 제5호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49775",
+      "source_title": "키 성장 표방 식품·의약품 점검",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 추천·보증인지 확인. 연구개발에 직접 참여했다는 사실만 표시한 경우와 구분."
+    },
+    {
+      "word": "우울증 예방",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.evaluation.go.kr/web/otcmList.do?mao_cd=1471000",
+      "source_title": "수험생 대상 광고 점검",
+      "source_locator": "정부업무평가포털 식약처-26-169 주요 위반 내용",
+      "source_product_scope": "일반식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "2026-10-28 발표의 일반식품 사례. 건기식에 그대로 표방하는 경우 검토."
+    }
+  ],
+  "ambiguous": [
+    {
+      "word": "불면증",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "치료 주장인지, 섭취 주의사항·제품과 구분된 질병정보인지 확인."
+    },
+    {
+      "word": "변비",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "배변활동 관련 인정 기능과 변비 치료 주장을 구분."
+    },
+    {
+      "word": "두통",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "아토피",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "생리통",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "월경 전 불편한 상태에 관한 인정 기능성과 통증 치료는 구분."
+    },
+    {
+      "word": "당뇨",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "식후 혈당 관련 인정 기능성이나 당뇨 환자 대상 섭취 주의와 구분."
+    },
+    {
+      "word": "안구건조증",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49936",
+      "source_title": "가정의 달 건강기능식품 등 점검",
+      "source_locator": "PDF 6쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 6쪽)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "건조한 눈 관련 인정 기능성 문구와 질환의 직접 치료를 구분."
+    },
+    {
+      "word": "ADHD",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148974513",
+      "source_title": "수험생 대상 광고 점검",
+      "source_locator": "정책브리핑 ‘이런 광고, 주의하세요’ ①",
+      "source_product_scope": "일반식품 사례",
+      "evidence_type": "공식 점검 안내에 제시된 위험 표현",
+      "note": "제품과 묶어 치료·예방을 암시하는지 확인."
+    },
+    {
+      "word": "이명",
+      "category": "질병 예방·치료 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50117",
+      "source_title": "이석·이명 광고 점검",
+      "source_locator": "붙임 1 표의 건강기능식품 사례(마지막 행)",
+      "source_product_scope": "건강기능식품 사례(붙임 1의 8번)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "청신경 보호",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50117",
+      "source_title": "이석·이명 광고 점검",
+      "source_locator": "붙임 1 표 8번",
+      "source_product_scope": "건강기능식품 사례(붙임 1의 8번)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "독소 배출",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "해독",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품 섭취가 독소를 제거한다고 주장하는지 검토."
+    },
+    {
+      "word": "수면 질 개선",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 8쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품별 인정 기능성과 문구를 대조."
+    },
+    {
+      "word": "손발 저림 개선",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 8쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "식욕억제 호르몬",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "붙임 2, PDF 8쪽",
+      "source_product_scope": "건강기능식품 사례(붙임 2)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "‘식욕억제 호르몬 생성 유도’의 일부. 관련 원료 근거를 완제품에 이전했는지 확인."
+    },
+    {
+      "word": "GLP-1",
+      "category": "의약품 오인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "source_title": "다이어트 숏폼 광고 점검",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "식품 혼합(본문의 GLP-1 관련 설명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "호르몬 자체를 설명하는 경우와 비만치료제 대체·동급으로 홍보하는 경우를 구분."
+    },
+    {
+      "word": "키 성장",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49775",
+      "source_title": "키 성장 표방 식품·의약품 점검",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "건강기능식품 위반유형에 명시",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "이 제품에 인정된 기능성인지 확인. 모든 키 성장 표현이 금지되는 것은 아님."
+    },
+    {
+      "word": "집중력 향상",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "source_title": "수험생 대상 식품·의약품 단속",
+      "source_locator": "PDF 3쪽",
+      "source_product_scope": "건강기능식품 위반유형에 명시",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "기억력 관련 인정 기능을 집중력 향상이나 ADHD 치료로 확대했는지 확인."
+    },
+    {
+      "word": "기억력 개선",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "source_title": "수험생 대상 식품·의약품 단속",
+      "source_locator": "PDF 3쪽",
+      "source_product_scope": "건강기능식품 사례",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "건기식 적발 사례는 ‘기억력 개선 영양제’; 인정받은 제품 표현은 그대로 비교."
+    },
+    {
+      "word": "두뇌 건강",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "source_title": "수험생 대상 식품·의약품 단속",
+      "source_locator": "PDF 3쪽",
+      "source_product_scope": "식품 혼합(붙임 일부 건기식 명시)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "면역력",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48237",
+      "source_title": "가정의 달 온라인 광고 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품 중심 점검",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "인정받은 면역 기능, 특정 질병 예방 주장, 인정받지 않은 제품의 효능 표방을 구분."
+    },
+    {
+      "word": "장 건강",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "제품이 해당 기능성을 갖춘 경우와 구분."
+    },
+    {
+      "word": "다이어트",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "source_title": "수입 건강기능식품 SNS 단속",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "건강기능식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "다이어트 단독으로 경고 확정 금지. 제품 기능성이나 기간·결과 보장 문맥을 검토."
+    },
+    {
+      "word": "체지방 감소",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do?bbs_no=bbs464&menu_no=3811&ntctxt_no=1070220",
+      "source_title": "식품안전나라 기능성 내용",
+      "source_locator": "기능성 내용",
+      "source_product_scope": "인정 기능성 안내(적발 사례 아님)",
+      "evidence_type": "공식 기능성 비교 기준",
+      "note": "가능한 인정 기능성의 핵심어. 과장된 확정 수치와 적용 제품만 검토."
+    },
+    {
+      "word": "혈행 개선",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do?bbs_no=bbs464&menu_no=3811&ntctxt_no=1070220",
+      "source_title": "식품안전나라 기능성 내용",
+      "source_locator": "기능성 내용",
+      "source_product_scope": "인정 기능성 안내(적발 사례 아님)",
+      "evidence_type": "공식 기능성 비교 기준",
+      "note": "‘혈행개선제’와 다름. 인정 기능성 및 표현 범위 대조."
+    },
+    {
+      "word": "혈당 조절",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do?bbs_no=bbs464&menu_no=3811&ntctxt_no=1070220",
+      "source_title": "식품안전나라 기능성 내용",
+      "source_locator": "기능성 내용 및 식후 혈당 관련 공식 안내",
+      "source_product_scope": "인정 기능성 안내(적발 사례 아님)",
+      "evidence_type": "공식 기능성 비교 기준",
+      "note": "허용될 수 있는 식후 혈당 상승 억제 표현과 당뇨 치료·약 대체 주장을 구분."
+    },
+    {
+      "word": "난자 질 개선",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48995",
+      "source_title": "SNS 숏폼 광고 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "배란일 단축",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48995",
+      "source_title": "SNS 숏폼 광고 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "해당 제품의 효능 주장과 연결되는지, 인정·심의 문구의 범위를 넘는지 확인."
+    },
+    {
+      "word": "의사 추천",
+      "category": "소비자 기만",
+      "legal_basis": "식품표시광고법 제8조 제1항 제5호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50067",
+      "source_title": "AI 가짜 의사 광고 수사",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "일반식품",
+      "evidence_type": "공식 사례에서 파생한 탐지어",
+      "note": "앱용 조합 후보. 사람·가상 인물의 제품 추천·보증인지 검토."
+    },
+    {
+      "word": "체험 후기",
+      "category": "소비자 기만",
+      "legal_basis": "식품표시광고법 제8조 제1항 제5호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48995",
+      "source_title": "SNS 숏폼 광고 점검",
+      "source_locator": "PDF 2쪽",
+      "source_product_scope": "식품 혼합(문구별 제품 불명)",
+      "evidence_type": "공식 사례에서 파생한 탐지어",
+      "note": "전후 사진 등 기관 설명에서 만든 탐지 후보. 후기 유무보다 제품 효능을 오인하게 하는지 검토."
+    },
+    {
+      "word": "역노화",
+      "category": "거짓·과장 또는 인정 기능성 확인",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호 (검토 기준)",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50067",
+      "source_title": "AI 가짜 의사 광고 수사",
+      "source_locator": "PDF 1쪽",
+      "source_product_scope": "일반식품",
+      "evidence_type": "공식 적발 원문 또는 발췌·띄어쓰기 정규화",
+      "note": "일반식품 사건에서 가져온 확장 후보."
+    }
+  ],
+  "rules": [
+    {
+      "id": "CTX-01",
+      "title": "혈당 기능이 치료로 확대",
+      "terms": [
+        "혈당 조절",
+        "당뇨"
+      ],
+      "signal": "제품이 당뇨 자체를 치료하거나 약을 대체한다고 말함",
+      "risk": "이 제품으로 당뇨를 잡고 약을 끊으세요.",
+      "contrast": "식후 혈당상승 억제에 도움을 줄 수 있음.",
+      "check": "식후·상승·억제 조건과 해당 제품 신고 기능, 코로솔산 일일량 확인. 약 변경 문구는 별도 표시.",
+      "reference_ids": [
+        "F03"
+      ],
+      "source_title": "식약처 당뇨 표방 일반식품 점검 · PDF 1쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48303",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-02",
+      "title": "골다공증 예방 단정",
+      "terms": [
+        "골다공증 예방",
+        "뼈 건강"
+      ],
+      "signal": "발생 위험 감소를 확정적인 예방·치료로 바꿈",
+      "risk": "꾸준히 먹으면 골다공증을 예방합니다.",
+      "contrast": "골다공증 발생 위험 감소에 도움을 줌.",
+      "check": "칼슘·비타민 D의 신고 기능과 일일량, 위험 감소와 직접 예방을 구분.",
+      "reference_ids": [
+        "F01",
+        "F02"
+      ],
+      "source_title": "식약처 가정의 달 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49028",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-03",
+      "title": "수면 기능이 질환 치료로 확대",
+      "terms": [
+        "불면증",
+        "수면 질 개선"
+      ],
+      "signal": "수면 보조를 불면증 치료나 수면제 대체로 표현",
+      "risk": "이것만 먹으면 만성 불면증이 사라집니다.",
+      "contrast": "수면의 질 개선에 도움을 줄 수 있음.",
+      "check": "제품 신고의 수면 기능, 일일량과 대상 확인. 긴장 완화만 인정된 제품에 수면 기능을 부여하지 않음.",
+      "reference_ids": [
+        "F12",
+        "F13"
+      ],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-04",
+      "title": "기억력이 집중력 효능으로 확대",
+      "terms": [
+        "기억력 개선",
+        "집중력 향상",
+        "두뇌 건강"
+      ],
+      "signal": "인정된 기억력 개선을 집중력·학업 성과까지 확대",
+      "risk": "기억력에 좋으니까 수능 집중력도 확실히 오릅니다.",
+      "contrast": "기억력 개선에 도움을 줄 수 있음.",
+      "check": "기억력과 집중력을 별개 기능으로 대조. 성적 향상 단정은 별도 표시.",
+      "reference_ids": [
+        "F05"
+      ],
+      "source_title": "식약처 수험생 점검 · PDF 3쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=47769",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-05",
+      "title": "질환을 해시태그로 암시",
+      "terms": [
+        "ADHD",
+        "집중력 향상"
+      ],
+      "signal": "제품·구매 링크 옆 질환 해시태그로 치료 효과 암시",
+      "risk": "집중력 관리 제품 바로 구매 #성인ADHD #약대신",
+      "contrast": "ADHD는 진료가 필요한 질환입니다. (제품 효능과 명확히 구분된 정보)",
+      "check": "해시태그·썸네일·자막·랜딩을 함께 확인. 콘텐츠 분리 및 명시 문구가 실질적으로 있는지 검토.",
+      "reference_ids": [
+        "F05"
+      ],
+      "source_title": "식약처 수험생 점검 · PDF 1쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49442",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호",
+      "method": "문장·화면 결합"
+    },
+    {
+      "id": "CTX-06",
+      "title": "키 성장 효과를 보장",
+      "terms": [
+        "키 성장",
+        "키크는 약"
+      ],
+      "signal": "기능성 범위를 넘어 성인 효과·기간·신장 수치를 보장",
+      "risk": "한 달 안에 키가 5cm 커집니다. 성인도 가능합니다.",
+      "contrast": "어린이 키성장에 도움을 줄 수 있음.",
+      "check": "제품별 인정 문구·대상 연령 확인. 어린이·원료가 동일해도 임의의 공통 허용어로 등록하지 않음.",
+      "reference_ids": [
+        "F16"
+      ],
+      "source_title": "식약처 키 성장 광고 단속 · PDF 1쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49775",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-07",
+      "title": "눈 건강을 질환 치료로 연결",
+      "terms": [
+        "안구건조증",
+        "눈 건강"
+      ],
+      "signal": "건조한 눈 관련 기능을 안구건조증 직접 치료로 바꿈",
+      "risk": "이 오메가3가 안구건조증을 치료합니다.",
+      "contrast": "건조한 눈을 개선하여 눈 건강에 도움을 줄 수 있음.",
+      "check": "EPA+DHA 합산량과 해당 제품의 눈 건강 기능 확인. 질환명을 쓰는 맥락까지 검토.",
+      "reference_ids": [
+        "F06"
+      ],
+      "source_title": "식약처 가정의 달 점검 · 붙임 현장 적발표",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=49936",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-08",
+      "title": "장 기능이 변비 치료로 확대",
+      "terms": [
+        "장 건강",
+        "변비"
+      ],
+      "signal": "배변활동 기능을 만성 변비 치료로 단정",
+      "risk": "장 건강을 챙기고 만성 변비를 끝내세요.",
+      "contrast": "배변활동 원활 및 장 건강에 도움을 줄 수 있음.",
+      "check": "제품의 장 건강 인정 기능, CFU 기준을 확인. 질환·치료 단정과 주의 안내를 구분.",
+      "reference_ids": [
+        "F09"
+      ],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-09",
+      "title": "혈행을 혈관 치료로 연결",
+      "terms": [
+        "혈행 개선",
+        "혈관 청소",
+        "혈액 청소"
+      ],
+      "signal": "혈행 도움을 혈관 속 플라크·혈전 제거로 표현",
+      "risk": "막힌 혈관을 뚫고 혈전을 녹여줍니다.",
+      "contrast": "혈행 개선에 도움을 줄 수 있음.",
+      "check": "혈행 기능에 플라크·혈전 제거가 포함되지 않음. 혈관 전후 영상도 같이 검토.",
+      "reference_ids": [
+        "F04"
+      ],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "문장·화면 결합"
+    },
+    {
+      "id": "CTX-10",
+      "title": "체지방 기능을 감량 보장으로 변경",
+      "terms": [
+        "체지방 감소",
+        "다이어트"
+      ],
+      "signal": "기간·kg 수치나 모든 소비자 동일 효과를 약속",
+      "risk": "딱 2주면 누구나 7kg가 빠집니다.",
+      "contrast": "체지방 감소에 도움을 줄 수 있음.",
+      "check": "체지방과 체중을 구분. 기간·전후값·보장 표현 및 인정 기능과 심의본을 대조.",
+      "reference_ids": [
+        "F11"
+      ],
+      "source_title": "식약처 다이어트 숏폼 단속 · PDF 1쪽·붙임 2",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호·제10호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-11",
+      "title": "의약품과 동급임을 암시",
+      "terms": [
+        "GLP-1",
+        "식욕억제 호르몬",
+        "위고비"
+      ],
+      "signal": "약물과 같은 작용이거나 약 대신 섭취하라고 함",
+      "risk": "주사 대신 먹으면 위고비와 같은 식욕 억제 효과가 납니다.",
+      "contrast": "GLP-1은 인체 호르몬입니다. (제품 효능과 분리된 설명)",
+      "check": "상품명·설명·음성·키워드 함께 확인. 호르몬 언급만으로 의약품 오인을 확정하지 않음.",
+      "reference_ids": [
+        "F11"
+      ],
+      "source_title": "식약처 다이어트 숏폼 단속 · PDF 1쪽·붙임 2",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "legal_basis": "식품표시광고법 제8조 제1항 제2호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-12",
+      "title": "면역력을 감염 예방으로 확대",
+      "terms": [
+        "면역력",
+        "감기 예방"
+      ],
+      "signal": "면역 지원을 특정 질병에 걸리지 않는다는 보장으로 바꿈",
+      "risk": "이 영양제를 먹으면 감기나 독감에 안 걸려요.",
+      "contrast": "정상적인 면역기능에 필요.",
+      "check": "아연의 정상 기능과 홍삼의 면역력 증진은 표현 및 요건이 다름. 질병 예방 효과로 확장 금지.",
+      "reference_ids": [
+        "F07",
+        "F08"
+      ],
+      "source_title": "식약처 가정의 달 점검 · PDF 1–2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48237",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-13",
+      "title": "귀 증상 완화·치료 암시",
+      "terms": [
+        "이명",
+        "청신경 보호"
+      ],
+      "signal": "귀울림을 멈추거나 청신경 손상을 회복한다고 주장",
+      "risk": "청신경을 되살려 이명 소리를 없앱니다.",
+      "contrast": "이명 증상이 지속되면 전문가와 상담하세요. (제품 효능과 분리)",
+      "check": "제품·마그네슘 존재만으로 귀 기능을 인정하지 않음. 제품 신고 또는 개별인정 자료 확인.",
+      "reference_ids": [],
+      "source_title": "식약처 이명·이석증 점검 · 붙임 1",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50117",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-14",
+      "title": "관절 기능을 약·수술 대체로 표현",
+      "terms": [
+        "관절 건강",
+        "관절약"
+      ],
+      "signal": "관절염 치료나 연골 재생·수술 대체 효과 암시",
+      "risk": "관절염 약이나 수술 대신 드세요. 닳은 연골이 재생됩니다.",
+      "contrast": "관절 및 연골건강에 도움을 줄 수 있음.",
+      "check": "제품별 인정 기능, MSM 양, 약·수술 대체 및 재생 문구 확인.",
+      "reference_ids": [
+        "F10"
+      ],
+      "source_title": "식약처·지자체 합동점검 · 정책브리핑 본문",
+      "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148921580",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-15",
+      "title": "월경 증상과 갱년기 효능을 섞음",
+      "terms": [
+        "생리통",
+        "갱년기"
+      ],
+      "signal": "갱년기 건강 기능을 생리통 치료나 호르몬 치료 효과로 바꿈",
+      "risk": "생리통을 없애고 호르몬 치료제를 대신합니다.",
+      "contrast": "갱년기 여성의 건강에 도움을 줄 수 있음.",
+      "check": "월경 전 불편, 생리통, 갱년기는 서로 다른 범위. 해당 제품의 대상·인정 기능 확인.",
+      "reference_ids": [
+        "F15"
+      ],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-16",
+      "title": "난임 문제의 개선을 암시",
+      "terms": [
+        "난자 질 개선",
+        "배란일 단축"
+      ],
+      "signal": "제품 섭취가 배란을 조절하거나 난임 치료를 대신한다고 말함",
+      "risk": "배란일을 앞당기고 난자 질을 높여 임신에 성공합니다.",
+      "contrast": "임신을 준비 중이라면 섭취 전 전문가와 상담하세요. (주의 안내 예시)",
+      "check": "제품별 인정·주의사항과 문구 확인. 임신 성공·난임 치료를 보장하는 주장인지 확인.",
+      "reference_ids": [],
+      "source_title": "식약처 숏폼 광고 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48995",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-17",
+      "title": "피부·통증 질환 치료로 연결",
+      "terms": [
+        "아토피",
+        "두통",
+        "염증 제거"
+      ],
+      "signal": "질환명을 제품과 묶거나 치료 후기·사진을 붙임",
+      "risk": "한 포씩 먹었더니 아토피와 두통이 없어졌어요.",
+      "contrast": "섭취 후 두통 등 이상이 있으면 중단하고 전문가와 상담하세요. (주의 문맥 예시)",
+      "check": "후기라도 제품 효능을 주장할 수 있음. 주의·이상사례 표시인지 먼저 확인.",
+      "reference_ids": [],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제5호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-18",
+      "title": "간 건강을 해독 효능으로 확대",
+      "terms": [
+        "독소 배출",
+        "해독"
+      ],
+      "signal": "간 건강을 독성물질 제거 또는 간 기능 복구로 표현",
+      "risk": "이 제품이 전신에 쌓인 독소를 하루 만에 배출합니다.",
+      "contrast": "간 건강에 도움을 줄 수 있음.",
+      "check": "실리마린 기능과 일일량 확인. 독소의 성분·측정치나 간 치료를 임의로 만들지 않음.",
+      "reference_ids": [
+        "F14"
+      ],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-19",
+      "title": "손발 증상을 신경 치료로 연결",
+      "terms": [
+        "손발 저림 개선",
+        "신경안정제"
+      ],
+      "signal": "저림 개선을 신경 손상 치료나 약효로 연결",
+      "risk": "손발 저림의 원인인 신경 손상을 회복시킵니다.",
+      "contrast": "증상이 지속되면 전문가와 상담하세요. (제품 효능과 구분)",
+      "check": "복합 효능을 한 문장에 제시하면 개별 기능으로 분리한 뒤 제품 범위와 대조.",
+      "reference_ids": [],
+      "source_title": "식약처 다이어트 숏폼 단속 · PDF 1쪽·붙임 2",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호·제4호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-20",
+      "title": "피로·항산화를 역노화로 연결",
+      "terms": [
+        "역노화",
+        "만성피로",
+        "항산화"
+      ],
+      "signal": "기능성 또는 원료 효능을 세포 회춘·신체나이 감소로 확대",
+      "risk": "노화 세포를 없애고 몸의 나이를 10년 되돌립니다.",
+      "contrast": "피로개선에 도움을 줄 수 있음.",
+      "check": "피로개선·항산화와 역노화는 구분. 원료 연구를 완제품 효과로 쓰는지도 확인.",
+      "reference_ids": [
+        "F08"
+      ],
+      "source_title": "식약처 AI 전문가 광고 사건 · PDF 1쪽·붙임",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50067",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호",
+      "method": "효능 주장"
+    },
+    {
+      "id": "CTX-21",
+      "title": "전문가가 제품을 보증",
+      "terms": [
+        "의사 추천",
+        "약사 추천",
+        "인증"
+      ],
+      "signal": "실제 또는 가상 전문가가 제품을 추천·지정하거나 기능을 보증",
+      "risk": "의사인 제가 이 제품의 효과를 보장합니다.",
+      "contrast": "개발에 직접 참여한 사실만 정확히 표시. (제품 추천·효과 보증 없이)",
+      "check": "직함·의상·음성·구매 CTA·합성 여부 증거를 함께 검토. 단순 출연이나 직접 연구개발 참여 사실과 구분.",
+      "reference_ids": [],
+      "source_title": "식약처 AI 전문가 광고 사건 · PDF 1쪽·붙임",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50067",
+      "legal_basis": "식품표시광고법 제8조 제1항 제5호",
+      "method": "문장·화면 결합"
+    },
+    {
+      "id": "CTX-22",
+      "title": "개인 체험을 일반 효과처럼 광고",
+      "terms": [
+        "체험 후기",
+        "전후 사진",
+        "내돈내산"
+      ],
+      "signal": "후기를 편집·연출하거나 개인 수치를 대표 효능으로 제시",
+      "risk": "다른 건 안 했는데 이거 하나로 8kg 빠졌어요. 누구나 됩니다.",
+      "contrast": "개봉·맛·용기 편의에 관한 후기. (건강 효능이나 소비자 대표 효과 주장 없음)",
+      "check": "협찬 표시는 효능 과장을 해소하지 않음. 비교 조건·연출·실제 제품 사용 여부 검토.",
+      "reference_ids": [
+        "F11"
+      ],
+      "source_title": "식약처 유튜브 홍삼 체험기 · 정책브리핑 본문",
+      "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148920717",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호",
+      "method": "문장·화면 결합"
+    },
+    {
+      "id": "CTX-23",
+      "title": "원료 연구를 완제품에 옮김",
+      "terms": [
+        "논문",
+        "인체적용시험",
+        "임상 입증"
+      ],
+      "signal": "원료·다른 제형·다른 섭취량 시험의 결과를 판매 제품의 시험처럼 제시",
+      "risk": "원료 논문에서 확인됐으니 이 완제품이 혈압을 낮춥니다.",
+      "contrast": "연구 대상을 정확히 밝히고 제품 효능과 구분.",
+      "check": "시험 대상 제품·제형·일일량·대상·효과를 판매 제품과 대조. 해당 제품 데이터가 없으면 확인 필요.",
+      "reference_ids": [],
+      "source_title": "식약처 알부민 3차 점검 · 국정성과 요약",
+      "source_url": "https://www.mfds.go.kr/brd/m_1256/view.do?seq=119",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호·제5호",
+      "method": "자료 대조"
+    },
+    {
+      "id": "CTX-24",
+      "title": "1회량과 1일량 또는 총량을 혼용",
+      "terms": [
+        "함량",
+        "고함량",
+        "총량",
+        "시험성적서"
+      ],
+      "signal": "총 원료 중량·포장 총량을 1일 기능성분 양으로 대체",
+      "risk": "오메가3 원료 1,000mg이니 EPA+DHA 1,000mg을 하루에 섭취합니다.",
+      "contrast": "원료량과 EPA+DHA 합을 구분하고 1일 섭취 기준으로 표시.",
+      "check": "1회 분량×하루 횟수, g·mg·µg 단위와 지표성분 확인. 제4 시험법은 성분 측정 근거이며 기능성 인정과는 별개.",
+      "reference_ids": [
+        "F04",
+        "F05",
+        "F06"
+      ],
+      "source_title": "첨부 고시 제2026-43호 제1~3·제4·제5",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호",
+      "method": "자료 대조"
+    },
+    {
+      "id": "CTX-25",
+      "title": "주의사항을 무해 보장으로 덮음",
+      "terms": [
+        "부작용 없음",
+        "누구나",
+        "임산부",
+        "약 복용"
+      ],
+      "signal": "부작용·병용 제한이 없다고 보장하거나 경고와 충돌",
+      "risk": "어린이와 임산부도 부작용 없이 무조건 드셔도 됩니다.",
+      "contrast": "제품의 대상·주의사항을 구체적으로 안내.",
+      "check": "실제 제품 주의사항·광고 전체 인상 확인. 제3의 같은 성분이라도 기능과 적용시점 확인.",
+      "reference_ids": [
+        "F03",
+        "F12",
+        "F13"
+      ],
+      "source_title": "첨부 고시 제2026-43호 제1~3·제4·제5",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호",
+      "method": "자료 대조"
+    },
+    {
+      "id": "CTX-26",
+      "title": "위반 문구가 아닌 병용 경고",
+      "terms": [
+        "당뇨",
+        "신경안정제",
+        "의약품"
+      ],
+      "signal": "약명 하나만 검출되지만 실질은 제품 복용 주의 또는 상담 안내",
+      "risk": "당뇨약 없이 이 제품만 드시면 됩니다.",
+      "contrast": "당뇨치료제 복용 시 섭취에 주의하세요.",
+      "check": "‘대신/끊다’와 ‘병용 시 주의/상담’을 분리. 검색결과를 문장 단위로 확인.",
+      "reference_ids": [
+        "F08"
+      ],
+      "source_title": "식품표시광고법 시행령 별표 1",
+      "source_url": "https://www.law.go.kr/LSW/flDownload.do?bylClsCd=110201&flSeq=155768811&gubun=",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제2호",
+      "method": "오탐 제외"
+    },
+    {
+      "id": "CTX-27",
+      "title": "보도·교육 인용과 판매 주장 구분",
+      "terms": [
+        "불면증",
+        "ADHD",
+        "이명",
+        "인용"
+      ],
+      "signal": "인용·부정 신호가 있지만 인접 자막이나 링크가 효능을 되살릴 수 있음",
+      "risk": "치료제가 아닙니다. 하지만 이것만 먹으면 불면증이 사라집니다.",
+      "contrast": "불면증 치료 효과를 주장한 광고가 적발됐습니다. (제품 판매와 무관한 보도)",
+      "check": "인용·부정의 범위, 앞뒤 문장, 제품 이미지·구매 링크의 맥락을 함께 확인.",
+      "reference_ids": [],
+      "source_title": "식품표시광고법 시행령 별표 1",
+      "source_url": "https://www.law.go.kr/LSW/flDownload.do?bylClsCd=110201&flSeq=155768811&gubun=",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호",
+      "method": "오탐 제외"
+    },
+    {
+      "id": "CTX-28",
+      "title": "작은 면책문구와 본 광고 충돌",
+      "terms": [
+        "의약품 아님",
+        "직접 관련 없음",
+        "치료"
+      ],
+      "signal": "면책문구가 있어도 메인 음성·영상이 치료 효과를 강하게 전달",
+      "risk": "[작은 글씨: 의약품 아님] 이 제품이 아토피를 완치합니다.",
+      "contrast": "질병정보를 제품의 기능성 광고와 명확히 구분하고 관련 없다는 법정 표현을 병기.",
+      "check": "어느 문구가 얼마나 크고 오래 보이는지, 내용이 실질적으로 분리되는지 확인.",
+      "reference_ids": [],
+      "source_title": "식품표시광고법 시행령 별표 1",
+      "source_url": "https://www.law.go.kr/LSW/flDownload.do?bylClsCd=110201&flSeq=155768811&gubun=",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호",
+      "method": "문장·화면 결합"
+    },
+    {
+      "id": "CTX-29",
+      "title": "심의한 문안과 실제 광고가 다름",
+      "terms": [
+        "자율심의",
+        "심의번호",
+        "자막·음성·랜딩"
+      ],
+      "signal": "심의 후 영상 또는 판매페이지에 효과 보장·질환 관련 새 문구를 추가",
+      "risk": "심의본에는 장 건강 도움만 있으나 릴스 음성에 변비 치료를 추가.",
+      "contrast": "같은 제품·매체 버전의 실제 문구와 심의 문안이 부합.",
+      "check": "해당 심의 대상·번호·결과와 자막, 음성, 이미지, 랜딩 버전을 비교. 심의번호만으로 통과 처리하지 않음.",
+      "reference_ids": [
+        "F09"
+      ],
+      "source_title": "식약처 수입 건기식 SNS 점검 · PDF 2쪽",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=48122",
+      "legal_basis": "식품표시광고법 제8조 제1항 제10호",
+      "method": "자료 대조"
+    },
+    {
+      "id": "CTX-30",
+      "title": "식품 분류가 다른데 같은 효능을 표방",
+      "terms": [
+        "기능성",
+        "건기식",
+        "영양제",
+        "일반식품"
+      ],
+      "signal": "일반식품과 건강기능식품을 같은 제품처럼 노출하거나 다른 SKU의 기능성을 전용",
+      "risk": "건기식 홍삼 근거 옆에 일반식품 음료를 같은 효능이라고 광고.",
+      "contrast": "제품별 분류·신고 기능을 따로 확인하고 다른 제품의 기능을 가져오지 않음.",
+      "check": "제품명·품목신고·랜딩 SKU를 연결. 일반식품 기능성표시는 별도 요건 적용.",
+      "reference_ids": [
+        "F08"
+      ],
+      "source_title": "식약처 알부민 3차 점검 · 국정성과 요약",
+      "source_url": "https://www.mfds.go.kr/brd/m_1256/view.do?seq=119",
+      "legal_basis": "식품표시광고법 제8조 제1항 제3호·제4호·제5호",
+      "method": "자료 대조"
+    },
+    {
+      "id": "CTX-31",
+      "title": "영상 연출이 치료·감량을 암시",
+      "terms": [
+        "전후 사진",
+        "혈관 애니메이션",
+        "자막",
+        "AI"
+      ],
+      "signal": "텍스트는 약하지만 시각 효과가 장기·혈관의 변화나 시술 결과처럼 보임",
+      "risk": "자막은 ‘가볍게’지만 음성 직후 혈관 찌꺼기가 사라지는 연출과 구매 버튼을 노출.",
+      "contrast": "검증된 기능성 설명과 효능을 암시하지 않는 중립적 제품 사진.",
+      "check": "같은 장면·앞뒤 구간의 화면, 음성, OCR 자막과 최종 구매 링크를 각각 기록.",
+      "reference_ids": [
+        "F04",
+        "F11"
+      ],
+      "source_title": "식약처 다이어트 숏폼 단속 · PDF 1쪽·붙임 2",
+      "source_url": "https://www.mfds.go.kr/brd/m_99/view.do?seq=50220",
+      "legal_basis": "식품표시광고법 제8조 제1항 제1호·제4호·제5호",
+      "method": "문장·화면 결합"
+    },
+    {
+      "id": "CTX-32",
+      "title": "규격 적합을 효능 승인처럼 포장",
+      "terms": [
+        "성분시험",
+        "기준 적합",
+        "정부 인증"
+      ],
+      "signal": "품질·함량 시험 또는 공전 번호를 별도 치료 효능 승인처럼 광고",
+      "risk": "검사에서 코로솔산이 검출돼 당뇨 치료 효능을 국가가 보증했습니다.",
+      "contrast": "시험 결과는 측정 성분·시료 범위로 제한하여 설명.",
+      "check": "제4 3-60은 코로솔산 시험법. 제5는 고시 재검토기한. 어느 쪽도 제품의 치료 기능 인정서가 아님.",
+      "reference_ids": [
+        "F03"
+      ],
+      "source_title": "첨부 고시 제2026-43호 제1~3·제4·제5",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973",
+      "legal_basis": "식품표시광고법 제8조 제1항 제4호·제5호",
+      "method": "자료 대조"
+    }
+  ],
+  "references": [
+    {
+      "id": "F01",
+      "ingredient": "비타민 D",
+      "functionality": "골다공증 발생 위험 감소에 도움을 줌",
+      "conditions": "비타민 D 3~10 µg/일(120~400 IU). 고칼슘혈증·의약품 복용 시 전문가 상담.",
+      "locator": "제3. 1-3, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F02",
+      "ingredient": "칼슘",
+      "functionality": "골다공증 발생 위험 감소에 도움을 줌",
+      "conditions": "칼슘 210~800 mg/일. 완제품 일일섭취량 기준.",
+      "locator": "제3. 1-15, 3) (1)~(2)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F03",
+      "ingredient": "바나바잎 추출물",
+      "functionality": "식후 혈당상승 억제에 도움을 줄 수 있음",
+      "conditions": "코로솔산 0.45~1.3 mg/일. 어린이·임산부·수유부는 섭취를 피할 것.",
+      "locator": "제3. 2-12, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F04",
+      "ingredient": "EPA 및 DHA 함유 유지",
+      "functionality": "혈중 중성지질 개선 및 혈행 개선에 도움을 줄 수 있음",
+      "conditions": "EPA+DHA 합 0.5~2 g/일. 항응고제·항혈소판제·혈압강하제 등 복용 시 전문가 상담.",
+      "locator": "제3. 2-16, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F05",
+      "ingredient": "EPA 및 DHA 함유 유지",
+      "functionality": "기억력 개선에 도움을 줄 수 있음",
+      "conditions": "EPA+DHA 합 0.9~2 g/일. 같은 원료라도 F04·F06의 섭취량을 그대로 적용하지 않음.",
+      "locator": "제3. 2-16, 3) (2) (나)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F06",
+      "ingredient": "EPA 및 DHA 함유 유지",
+      "functionality": "건조한 눈을 개선하여 눈 건강에 도움을 줄 수 있음",
+      "conditions": "EPA+DHA 합 0.6~2.24 g/일. 직접적인 안구건조증 치료 주장과 구분.",
+      "locator": "제3. 2-16, 3) (2) (다)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F07",
+      "ingredient": "아연",
+      "functionality": "정상적인 면역기능에 필요",
+      "conditions": "아연 2.55~12 mg/일. 특정 감염 예방으로 의미를 넓히지 않음.",
+      "locator": "제3. 1-18, 3) (1)~(2)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F08",
+      "ingredient": "홍삼",
+      "functionality": "면역력 증진 및 피로개선에 도움을 줄 수 있음",
+      "conditions": "진세노사이드 Rg1·Rb1·Rg3 합 3~80 mg/일. 당뇨치료제·혈액항응고제 복용 시 섭취 주의.",
+      "locator": "제3. 2-2, 3) (2) (가)·(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F09",
+      "ingredient": "프로바이오틱스",
+      "functionality": "유산균 증식 및 유해균 억제, 배변활동 원활, 장 건강에 도움을 줄 수 있음",
+      "conditions": "1억~100억 CFU/일. 질환 또는 의약품 복용 시 전문가 상담.",
+      "locator": "제3. 2-51, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F10",
+      "ingredient": "엠에스엠(MSM)",
+      "functionality": "관절 및 연골건강에 도움을 줄 수 있음",
+      "conditions": "MSM 1.5~2.0 g/일. 신장질환은 섭취 전 전문가 상담.",
+      "locator": "제3. 2-55, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F11",
+      "ingredient": "가르시니아캄보지아 추출물",
+      "functionality": "탄수화물의 지방 합성 억제를 통해 체지방 감소에 도움을 줄 수 있음",
+      "conditions": "기능성이 인정된 제품의 해당 문구와 대조. 개정된 제조기준·일일섭취량 등의 2027-01-01 시행 여부를 부칙과 함께 확인.",
+      "locator": "제3. 2-25, 3) (1) 및 제2026-43호 부칙",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F12",
+      "ingredient": "유단백가수분해물",
+      "functionality": "수면의 질 개선에 도움을 줄 수 있음",
+      "conditions": "수면 기준 αS1-카제인(f91–100) 5.4~8.2 mg/일. 우유·유제품 알레르기와 임산부·수유여성·어린이 주의.",
+      "locator": "제3. 2-64, 3) (2) (나)·(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F13",
+      "ingredient": "테아닌",
+      "functionality": "스트레스로 인한 긴장완화에 도움을 줄 수 있음",
+      "conditions": "L-테아닌 200~250 mg/일. 임산·수유부 섭취 회피 및 카페인 함유음료와 병용 주의.",
+      "locator": "제3. 2-54, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F14",
+      "ingredient": "밀크씨슬 추출물",
+      "functionality": "간 건강에 도움을 줄 수 있음",
+      "conditions": "실리마린 130 mg/일. 간 치료나 전신 독소 배출 기능으로 넓히지 않음.",
+      "locator": "제3. 2-14, 3) (1)~(2)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F15",
+      "ingredient": "회화나무열매추출물",
+      "functionality": "갱년기 여성의 건강에 도움을 줄 수 있음",
+      "conditions": "회화나무열매추출물 350 mg/일. 에스트로겐에 민감한 사람은 섭취 주의.",
+      "locator": "제3. 2-68, 3) (1)~(3)",
+      "source_url": "https://www.mfds.go.kr/brd/m_211/view.do?seq=14973"
+    },
+    {
+      "id": "F16",
+      "ingredient": "황기추출물 등 복합물(HT042)",
+      "functionality": "어린이 키성장에 도움을 줄 수 있음",
+      "conditions": "개별인정 원료(제2014-40호). 제품별 신고·인정 범위와 대상 확인. 성인 성장이나 수치 보장에 적용하지 않음.",
+      "locator": "식품안전나라 원료별 정보 · 제2014-40호",
+      "source_url": "https://www.foodsafetykorea.go.kr/portal/board/boardDetail.do?bbs_no=bbs987&menu_no=2660&ntctxt_no=21479"
+    }
+  ]
+}

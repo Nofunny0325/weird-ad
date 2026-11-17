@@ -3,125 +3,105 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>부당광고 판별</title>
+  <title>건강기능식품 광고 검토</title>
+  <link rel="icon" href="data:,">
   <style>
-    body { font-family: -apple-system, 'Apple SD Gothic Neo', sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; color: #222; }
-    h1 { font-size: 22px; }
-    .deps { font-size: 13px; color: #555; background: #f5f5f5; padding: 10px 14px; border-radius: 8px; margin-bottom: 20px; }
-    .deps span.ok { color: #1a7f37; }
-    .deps span.bad { color: #c0392b; }
-    form { border: 1px solid #ddd; border-radius: 10px; padding: 20px; }
-    label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-    input[type=file] { margin-bottom: 14px; }
-    .checkbox-row { font-weight: 400; display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
-    button { background: #1c2d4a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    .flash { background: #fdecea; color: #c0392b; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
-    .result { margin-top: 24px; border-top: 1px solid #ddd; padding-top: 20px; }
-    .badge { display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: 13px; }
-    .badge.unfair { background: #fdecea; color: #c0392b; }
-    .badge.likely { background: #fdf3e3; color: #b5760a; }
-    .badge.ok { background: #e8f5e9; color: #1a7f37; }
-    .hits { margin-top: 14px; font-size: 14px; }
-    .hit-row { border-top: 1px solid #eee; padding: 8px 0; }
-    .hit-row .word { font-weight: 700; margin-right: 10px; }
-    .full-text { background: #f9f9f9; padding: 12px 14px; border-radius: 8px; font-size: 13px; color: #444; margin-top: 16px; white-space: pre-wrap; }
-    .ai-analysis { background: #fafafa; border: 1px dashed #ccc; padding: 12px 14px; border-radius: 8px; margin-top: 14px; font-size: 14px; white-space: pre-wrap; }
+    :root{font:16px/1.55 system-ui,sans-serif;color:#172b37;background:#f3f5f4}
+    body{max-width:900px;margin:44px auto;padding:0 20px}
+    header{border-bottom:1px solid #ccd8d4;margin-bottom:22px;padding-bottom:14px}
+    h1,h2,h3,p{margin-top:0}h1{font-size:2rem;margin-bottom:7px}h2{font-size:1.22rem}
+    .muted{color:#4d6268;font-size:.9rem}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    form,article,.panel{background:white;border:1px solid #d6dfdc;border-radius:12px;padding:18px}
+    label{display:block;font-weight:600;margin-bottom:7px}input,textarea{font:inherit;max-width:100%;box-sizing:border-box}
+    input[type=text],textarea{width:100%;border:1px solid #a9bab6;border-radius:7px;padding:8px}
+    textarea{min-height:104px;resize:vertical}button{background:#165a50;color:white;border:0;border-radius:7px;
+      padding:9px 14px;font:inherit;font-weight:650;cursor:pointer}
+    .error{color:#842413;background:#fff0e8;padding:12px;border-left:4px solid #a83c26;margin-bottom:16px}
+    .result{margin-top:28px}.badge{display:inline-block;background:#fff0cc;color:#694509;border-radius:6px;padding:4px 10px}
+    .unfair{background:#fbe5df;color:#832f1c}.evidence{border-left:4px solid #a96523;margin:12px 0}
+    .evidence.recognized{border-left-color:#337b67}.evidence.explicit{border-left-color:#a83c26}
+    .evidence blockquote{margin:8px 0;padding:8px 12px;background:#f3f5f4;overflow-wrap:anywhere}
+    details{margin:9px 0}summary{cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}
+    a{color:#1d665c}.meta{margin-bottom:6px;font-size:.9rem;color:#4d6268}.model{font-weight:650}
+    @media(max-width:700px){.grid{grid-template-columns:1fr}body{margin-top:24px}}
   </style>
 </head>
 <body>
-  <h1>식품 광고 검토</h1>
-  <p>영상에서 주의 표현과 주변 문맥을 검토합니다. 제품 성분·인정 기능성·인체시험 대조는 아직 제공하지 않습니다.</p>
-
-  <div class="deps">
-    의존성: ffmpeg <span class="{{ 'ok' if deps.ffmpeg else 'bad' }}">{{ '설치됨' if deps.ffmpeg else '없음' }}</span> ·
-    tesseract <span class="{{ 'ok' if deps.tesseract else 'bad' }}">{{ '설치됨' if deps.tesseract else '없음' }}</span> ·
-    pytesseract <span class="{{ 'ok' if deps.pytesseract else 'bad' }}">{{ '설치됨' if deps.pytesseract else '없음' }}</span> ·
-    faster-whisper <span class="{{ 'ok' if deps.faster_whisper else 'bad' }}">{{ '설치됨' if deps.faster_whisper else '없음' }}</span>
+  <header>
+    <h1>건강기능식품 광고 검토</h1>
+    <p>화면 글자와 음성을 구간별로 검사하고, 관련 표현과 검토 근거를 보여줍니다. 분석은 이 서버에서 실행됩니다.</p>
+  </header>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <div class="grid">
+    <form method="post" action="{{ url_for('analyze') }}" enctype="multipart/form-data">
+      <h2>영상 검토</h2>
+      <label for="video">광고 영상 파일</label>
+      <input type="file" name="video" id="video" accept=".mp4,.mov,.mkv,.webm" required>
+      <p class="muted">MP4, MOV, MKV, WEBM · {{ max_duration }}초 이하 · 요청 크기 64 MiB 미만</p>
+      <label><input type="checkbox" name="run_stt" {% if deps.faster_whisper %}checked{% endif %}> 저장된 음성 인식 모델 사용</label>
+      <label for="product-video">제품 식별번호 <span class="muted">(선택)</span></label>
+      <input type="text" id="product-video" name="product_id" maxlength="48" autocomplete="off">
+      <p class="muted">서버에 등록된 제품 번호가 있으면 인정 문구와 대조합니다.</p>
+      <button type="submit">영상 검토</button>
+      {% if not deps.ffmpeg or not deps.tesseract %}
+      <p class="muted">이 서버에서 {{ 'ffmpeg' if not deps.ffmpeg else '' }}{{ ', ' if not deps.ffmpeg and not deps.tesseract else '' }}{{ 'Tesseract' if not deps.tesseract else '' }}를 찾지 못했습니다. 문장 검토는 사용할 수 있습니다.</p>
+      {% endif %}
+    </form>
+    <form method="post" action="{{ url_for('review_text') }}">
+      <h2>문장 검토</h2>
+      <label for="transcript">광고 자막이나 발화</label>
+      <textarea id="transcript" name="transcript" maxlength="{{ max_text }}" required></textarea>
+      <label for="product-text">제품 식별번호 <span class="muted">(선택)</span></label>
+      <input type="text" id="product-text" name="product_id" maxlength="48" autocomplete="off">
+      <p class="muted">앞뒤 문장을 같이 넣으면 주장과 주의 문구를 구분하는 데 도움이 됩니다.</p>
+      <button type="submit">문장 검토</button>
+    </form>
   </div>
-
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for m in messages %}
-        <div class="flash">{{ m }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-
-  <form method="post" action="/analyze" enctype="multipart/form-data">
-    <label for="video">영상 파일 업로드 (mp4, mov, mkv, webm)</label>
-    <input type="file" id="video" name="video" accept=".mp4,.mov,.mkv,.webm" required>
-
-    <div class="checkbox-row">
-      <input type="checkbox" id="run_stt" name="run_stt" {{ 'checked' if deps.faster_whisper else '' }}>
-      <label for="run_stt" style="margin:0; font-weight:400;">음성 인식(STT)도 실행 {{ '' if deps.faster_whisper else '(faster-whisper 미설치 — 체크해도 자동으로 건너뜀)' }}</label>
-    </div>
-
-    <button type="submit">심사하기</button>
-  </form>
-
   {% if result is not none %}
-    <div class="result">
-      <h2>판정 결과 — {{ filename }}</h2>
-
-      {% if result.verdict.value == '위반 의심' %}
-        <span class="badge unfair">위반 의심</span>
-      {% elif result.verdict.value == '확인 필요' %}
-        <span class="badge likely">확인 필요</span>
-      {% else %}
-        <span class="badge ok">검토 범위 내 주요 의심 없음</span>
-      {% endif %}
-      <p>{{ result.review_scope }} · 법적 위반 확정이나 적법 인증이 아닙니다.</p>
-      <h3>판단 이유</h3>
-      <ul>{% for reason in result.reasons %}<li>{{ reason }}</li>{% endfor %}</ul>
-      <h3>확인하지 못한 항목과 검토 한계</h3>
-      <ul>{% for limitation in result.limitations %}<li>{{ limitation }}</li>{% endfor %}</ul>
-      {% if result.extraction_status %}
-      <p>추출 상태:
-        {% for source, status in result.extraction_status.items() %}
-          {{ '화면 글자' if source == 'ocr' else '음성' }}:
-          {{ {'completed':'추출 완료', 'empty':'텍스트 미추출', 'failed':'실패', 'skipped':'미실행'}.get(status, '미확인') }}
-        {% endfor %}
-      </p>
-      {% endif %}
-
-      {% if result.banned_hits %}
-        <div class="hits">
-          <strong>우선 검토 표현:</strong>
-          {% for h in result.banned_hits %}
-            <div class="hit-row"><span class="word">{{ h.entry.word }}</span>{{ h.matched_sentence }}
-              <p>{{ '화면 글자' if h.source == 'ocr' else '음성' }} · {% if h.start_sec is not none %}{{ '%.1f'|format(h.start_sec) }}–{{ '%.1f'|format(h.end_sec) }}초 (추출 구간){% else %}시간 미확인{% endif %}</p>
-              <p>유형: {{ h.entry.category }} · 근거: {{ h.entry.legal_basis or '미등록' }}</p>
-              <details><summary>주변 문맥</summary>{{ h.context }}</details>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      {% if result.ambiguous_hits %}
-        <div class="hits">
-          <strong>오인유발어 감지:</strong>
-          {% for h in result.ambiguous_hits %}
-            <div class="hit-row"><span class="word">{{ h.entry.word }}</span>{{ h.matched_sentence }}
-              <p>{{ '화면 글자' if h.source == 'ocr' else '음성' }} · {% if h.start_sec is not none %}{{ '%.1f'|format(h.start_sec) }}–{{ '%.1f'|format(h.end_sec) }}초 (추출 구간){% else %}시간 미확인{% endif %}</p>
-              <p>유형: {{ h.entry.category }} · 근거: {{ h.entry.legal_basis or '미등록' }}</p>
-              <details><summary>주변 문맥</summary>{{ h.context }}</details>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      {% if result.ai_analysis %}
-        <div class="ai-analysis"><strong>AI 분석 근거:</strong><br>{{ result.ai_analysis }}</div>
-      {% endif %}
-
-      <div class="full-text"><strong>추출된 전체 텍스트:</strong><br>{{ full_text }}</div>
-    </div>
-  {% elif ai_error %}
-    <div class="result">
-      <h2>판정 결과 — {{ filename }}</h2>
-      <div class="flash">오인유발어는 감지됐지만 AI 분석 단계에서 오류가 발생했습니다: {{ ai_error }}</div>
-      <div class="full-text"><strong>추출된 전체 텍스트:</strong><br>{{ full_text }}</div>
-    </div>
+  <section class="result" aria-label="검토 결과">
+    <h2>검토 결과 · {{ filename }}</h2>
+    <p><strong class="badge {{ 'unfair' if result.verdict.value == '위반 의심' else '' }}">{{ result.verdict.value }}</strong></p>
+    <p class="meta"><span class="model">{{ result.model_mode }}</span> · 검토 구간 {{ result.scanned_windows }}개 · 제품 {{ result.product_status }}</p>
+    {% if result.product %}
+      <p><a href="{{ result.product.source_url }}" rel="noopener noreferrer">{{ result.product.name }}의 인정 기능성 자료</a> <span class="muted">({{ result.product.as_of }} 기준)</span></p>
+    {% endif %}
+    {% for reason in result.reasons %}<p>{{ reason }}</p>{% endfor %}
+    {% for f in result.findings %}
+      <article class="evidence {{ f.kind }}">
+        <p class="meta">{{ {'explicit':'직접 확인된 주장', 'combined':'자막과 발화가 합쳐진 후보', 'similar':'유사 문장 후보', 'recognized':'등록 문구 대조'}[f.kind] }} · {{ f.rule_id }}
+          · {{ {'ocr':'화면 글자','stt':'음성','ocr+stt':'화면과 음성','text':'입력 문장'}.get(f.source,f.source) }}
+          {% if f.source != 'text' %} · {{ '%.1f'|format(f.start_sec) }}–{{ '%.1f'|format(f.end_sec) }}초{% endif %}</p>
+        <h3>{{ f.title }}</h3>
+        <blockquote>{{ f.sentence }}</blockquote>
+        <p>{{ f.check }}</p>
+        {% if f.kind in ('similar','combined') %}<p class="muted">아래는 관련 검토 기준입니다. 이 구간의 위반을 확정하지 않습니다.</p>{% endif %}
+        {% if f.comparison %}<p><strong>비교 예시:</strong> {{ f.comparison }}</p>{% endif %}
+        {% if f.source_url %}<p class="meta"><a href="{{ f.source_url }}" rel="noopener noreferrer">{{ f.source_title }}</a>{% if f.legal_basis %} · {{ f.legal_basis }}{% endif %}</p>{% endif %}
+        {% if f.references %}
+          <details><summary>원료 기준 보기</summary>
+            <ul>{% for ref in f.references %}<li><a href="{{ ref.source_url }}" rel="noopener noreferrer">{{ ref.ingredient }}</a>: {{ ref.functionality }} ({{ ref.conditions }})</li>{% endfor %}</ul>
+          </details>
+        {% endif %}
+        {% if f.source != 'text' %}<details><summary>주변 자막과 발화</summary><pre>{{ f.context }}</pre></details>{% endif %}
+      </article>
+    {% endfor %}
+    {% if result.banned_hits or result.ambiguous_hits %}
+      <details class="panel"><summary>사전에서 발견한 표현</summary>
+        <ul>{% for hit in result.banned_hits + result.ambiguous_hits %}
+          <li><strong>{{ hit.entry.word }}</strong> · {{ hit.entry.category }} · {{ {'ocr':'화면 글자','stt':'음성','text':'입력 문장'}.get(hit.source,hit.source) }}
+          {% if hit.source != 'text' %} · {{ '%.1f'|format(hit.start_sec) }}–{{ '%.1f'|format(hit.end_sec) }}초{% endif %}</li>
+        {% endfor %}</ul>
+      </details>
+    {% endif %}
+    <details class="panel"><summary>추출 내용과 확인하지 못한 항목</summary>
+      {% if filename != '입력 문장' %}
+      <ul>{% for channel, status in result.extraction_status.items() %}
+        <li>{{ '화면 글자' if channel == 'ocr' else '음성' }}: {{ {'completed':'추출 완료','empty':'추출된 텍스트 없음','failed':'추출 실패','skipped':'실행 안 함'}.get(status,status) }}</li>
+      {% endfor %}</ul>{% endif %}
+      <ul>{% for note in result.limitations %}<li>{{ note }}</li>{% endfor %}</ul>
+      {% if full_text %}<pre>{{ full_text }}</pre>{% endif %}
+    </details>
+  </section>
   {% endif %}
 </body>
 </html>

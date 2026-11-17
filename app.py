@@ -1,123 +1,82 @@
-"""
-웹 서버 (Flask)
-
-소비자가 브라우저에서 영상을 업로드하면:
-  업로드 받기 -> OCR/STT 추출 -> 금지어/오인유발어 판정 -> 결과를 화면에 보여줌
-
-실행 (로컬):
-  python3 app.py
-  그 다음 브라우저에서 http://127.0.0.1:5000 접속
-
-배포: Dockerfile로 Render 등 클라우드에 올리면 PORT 환경변수를 읽어서
-0.0.0.0에 바인딩함 (README의 "클라우드 배포" 참고).
-
-ANTHROPIC_API_KEY 환경변수가 없으면 오인유발어 분석 단계에서 에러 메시지를 그대로 화면에 보여줌
-(서버가 죽지는 않음).
-"""
-
+"""Flask UI for local food-ad screening."""
 import os
-import traceback
-import uuid
 from pathlib import Path
+import tempfile
+import uuid
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request
 
-from pipeline.input_handler import InputHandler
-from pipeline.extractors import TextExtractionService, OCRExtractor, STTExtractor, check_dependencies
-from pipeline.judge_engine import JudgeEngine, AIContextAnalyzer
-from data.wordlists_schema import WordLists
+from pipeline.extractors import (
+    MAX_VIDEO_SECONDS, ExtractedText, TimedText, TextExtractionService,
+    check_dependencies, probe_video,
+)
+from pipeline.judge_engine import ROOT, default_engine
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "dev-only-change-me")
-
-UPLOAD_TMP_DIR = Path("storage/tmp_uploads")
-UPLOAD_TMP_DIR.mkdir(parents=True, exist_ok=True)
-
-ALLOWED_EXT = {".mp4", ".mov", ".mkv", ".webm"}
+app.config.update(MAX_CONTENT_LENGTH=64 * 1024 * 1024)
+UPLOAD_TMP_DIR = ROOT / 'storage' / 'tmp_uploads'
+ALLOWED_EXT = {'.mp4', '.mov', '.mkv', '.webm'}
+MAX_TEXT_CHARS = 12_000
 
 
-@app.route("/", methods=["GET"])
+def page(*, result=None, full_text='', filename='', error='', status=200):
+    return render_template('index.html', deps=check_dependencies(), result=result, error=error,
+        filename=filename, full_text=full_text, max_duration=MAX_VIDEO_SECONDS, max_text=MAX_TEXT_CHARS), status
+
+
+@app.errorhandler(413)
+def too_large(_):
+    return page(error='업로드 요청은 64 MiB보다 작아야 합니다.', status=413)
+
+
+@app.get('/')
 def index():
-    deps = check_dependencies()
-    return render_template("index.html", deps=deps, result=None)
+    return page()
 
 
-@app.route("/analyze", methods=["POST"])
+@app.post('/review-text')
+def review_text():
+    transcript = request.form.get('transcript', '').strip()
+    if not transcript or len(transcript)>MAX_TEXT_CHARS:
+        return page(error=f'문장을 1~{MAX_TEXT_CHARS:,}자로 입력하세요.', status=400)
+    # Offsets are not timestamps for pasted transcripts; the UI labels this channel separately.
+    extracted=ExtractedText('text',stt_segments=[TimedText(transcript,0,0,'text')],
+        channel_status={'ocr':'skipped','stt':'skipped'})
+    result=default_engine().judge(extracted, request.form.get('product_id',''))
+    return page(result=result,full_text=transcript,filename='입력 문장')
+
+
+@app.post('/analyze')
 def analyze():
-    deps = check_dependencies()
-
-    file = request.files.get("video")
-    if not file or file.filename == "":
-        flash("영상 파일을 선택해주세요.")
-        return redirect(url_for("index"))
-
-    ext = Path(file.filename).suffix.lower()
+    file=request.files.get('video')
+    ext=Path(file.filename or '').suffix.lower() if file else ''
     if ext not in ALLOWED_EXT:
-        flash(f"지원하지 않는 파일 형식입니다: {ext} (지원: {', '.join(ALLOWED_EXT)})")
-        return redirect(url_for("index"))
-
-    run_stt = request.form.get("run_stt") == "on"
-
-    # 1. 임시 저장
-    tmp_path = UPLOAD_TMP_DIR / f'{uuid.uuid4().hex}{ext}'
-
-    try:
-        file.save(tmp_path)
-        # 2. InputHandler로 정식 저장 위치 이동 + 검증
-        input_handler = InputHandler()
-        video = input_handler.handle_file_upload(str(tmp_path), file.filename)
-        if not input_handler.validate(video):
-            flash("유효하지 않은 영상 파일입니다.")
-            return redirect(url_for("index"))
-
-        # 3. OCR(+STT) 추출
-        extraction_service = TextExtractionService(
-            ocr=OCRExtractor(frame_interval_sec=1.0),
-            stt=STTExtractor(model_size="small", language="ko"),
-        )
-        extracted = extraction_service.extract_all(video.video_id, video.saved_path, run_stt=run_stt)
-        full_text = extracted.full_text()
-
-        # 4. 판정
-        wordlists = WordLists.load(
-            banned_path="data/banned_words.sample.json",
-            ambiguous_path="data/ambiguous_words.sample.json",
-        )
-        judge_engine = JudgeEngine(wordlists=wordlists, ai_analyzer=AIContextAnalyzer())
-
-        ai_error = None
+        return page(error='MP4, MOV, MKV, WEBM 영상 파일을 선택하세요.',status=400)
+    UPLOAD_TMP_DIR.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='review-',dir=UPLOAD_TMP_DIR) as directory:
+        path=Path(directory)/('video'+ext)
         try:
-            result = judge_engine.judge(extracted)
-        except Exception as e:
-            # 오인유발어는 감지됐는데 AI 호출이 실패한 경우 (키 없음, 패키지 없음 등)
-            # 서버를 죽이지 않고 에러 내용을 화면에 보여준다
-            ai_error = str(e)
-            result = None
-
-        return render_template(
-            "index.html",
-            deps=deps,
-            result=result,
-            full_text=full_text,
-            filename=file.filename,
-            ai_error=ai_error,
-        )
-
-    except Exception as e:
-        traceback.print_exc()
-        flash(f"처리 중 오류가 발생했습니다: {e}")
-        return redirect(url_for("index"))
-
-    finally:
-        if tmp_path.exists():
-            tmp_path.unlink()
+            file.save(path)
+            duration=probe_video(path)
+            if duration is None:
+                return page(error='영상 형식 또는 재생 시간을 확인할 수 없습니다.',status=400)
+            if duration>MAX_VIDEO_SECONDS:
+                return page(error=f'{MAX_VIDEO_SECONDS}초 이하 영상만 분석할 수 있습니다.',status=400)
+            service=TextExtractionService()
+            extracted=service.extract_all(uuid.uuid4().hex,path,run_stt=request.form.get('run_stt')=='on')
+            result=default_engine().judge(extracted,request.form.get('product_id',''))
+            return page(result=result,full_text=extracted.full_text(),filename=Path(file.filename or '동영상').name)
+        except (FileNotFoundError, TimeoutError):
+            return page(error='영상 처리 도구를 실행할 수 없습니다. ffmpeg 설치 상태를 확인하세요.',status=503)
+        except OSError:
+            app.logger.exception('Local video processing failed')
+            return page(error='서버에서 영상 파일을 처리할 수 없습니다.',status=500)
 
 
-if __name__ == "__main__":
-    # 로컬 테스트: host="127.0.0.1" (내 컴퓨터에서만 접속)
-    # 배포(Render 등) 환경: PORT 환경변수를 넘겨주고, 0.0.0.0으로 바인딩해야
-    # 플랫폼이 외부 요청을 이 서버로 전달할 수 있음
-    port = int(os.environ.get("PORT", 5000))
-    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
-    host = "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1"
-    app.run(host=host, port=port, debug=debug)
+if __name__=='__main__':
+    port=int(os.getenv('PORT','5000'))
+    if os.getenv('PORT'):
+        from waitress import serve
+        serve(app,host='0.0.0.0',port=port,threads=2)
+    else:
+        app.run(host='127.0.0.1',port=port,debug=False)

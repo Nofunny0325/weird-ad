@@ -17,6 +17,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Render 등은 컨테이너에 PORT 환경변수를 넘겨줌. app.py가 이를 읽어서 바인딩함.
-ENV FLASK_DEBUG=0
+# Public weights are fetched once during the build; inference needs no network.
+# Build with --build-arg WITH_STT=1 to also include the optional speech model.
+ARG WITH_STT=0
+RUN if [ "$WITH_STT" = "1" ]; then python scripts/setup_models.py --with-stt; else python scripts/setup_models.py; fi
+ENV PORT=5000 HF_HUB_OFFLINE=1
+EXPOSE 5000
 CMD ["python3", "app.py"]

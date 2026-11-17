@@ -18,9 +18,38 @@ from pathlib import Path
 import subprocess
 import tempfile
 import shutil
+import os
+import re
+import wave
+from functools import lru_cache
 
 from PIL import Image
 import pytesseract
+
+MAX_VIDEO_SECONDS = 180
+_INPUT_OPTIONS = ['-protocol_whitelist','file,pipe','-format_whitelist','mov,matroska,webm']
+
+
+def _ffmpeg_command():
+    return os.environ.get('FOOD_AD_FFMPEG', 'ffmpeg')
+
+
+def probe_video(path: Path) -> float | None:
+    """Read media stream metadata with ffmpeg without decoding the complete input."""
+    try:
+        result = subprocess.run([_ffmpeg_command(), '-hide_banner', '-nostdin', *_INPUT_OPTIONS, '-i', str(path)],
+                                capture_output=True, timeout=12)
+    except subprocess.TimeoutExpired as exc:
+        raise TimeoutError('영상 정보 확인 시간 초과') from exc
+    report=result.stderr.decode(errors='replace')
+    if not re.search(r'Stream #[^\n]+Video:',report):
+        return None
+    match=re.search(r'Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)',report)
+    if not match:
+        return None
+    h,m,s=map(float,match.groups())
+    duration=h*3600+m*60+s
+    return duration if duration>0 else None
 
 
 @dataclass
@@ -51,9 +80,10 @@ class ExtractedText:
 
 def _run_ffmpeg(args: list[str]) -> None:
     result = subprocess.run(
-        ["ffmpeg", "-y", *args],
+        [_ffmpeg_command(), "-nostdin", "-y", *_INPUT_OPTIONS, *args],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        timeout=90,
     )
     if result.returncode != 0:
         raise RuntimeError(f"ffmpeg 실행 실패: {result.stderr.decode(errors='ignore')[-2000:]}")
@@ -73,7 +103,7 @@ class OCRExtractor:
     def _extract_frames(self, video_path: Path, out_dir: Path) -> list[Path]:
         fps = 1.0 / self.frame_interval_sec
         pattern = str(out_dir / "frame_%05d.png")
-        _run_ffmpeg(["-i", str(video_path), "-vf", f"fps={fps}", pattern])
+        _run_ffmpeg(["-i", str(video_path), "-t", str(MAX_VIDEO_SECONDS), "-vf", f"fps={fps}", pattern])
         return sorted(out_dir.glob("frame_*.png"))
 
     def extract(self, video_path: Path) -> list[TimedText]:
@@ -88,10 +118,10 @@ class OCRExtractor:
                 start_sec = idx * self.frame_interval_sec
                 end_sec = start_sec + self.frame_interval_sec
 
-                image = Image.open(frame_path)
-                text = pytesseract.image_to_string(
-                    image, lang=self.lang, config=self.tesseract_config
-                ).strip()
+                with Image.open(frame_path) as image:
+                    text = pytesseract.image_to_string(
+                        image, lang=self.lang, config=self.tesseract_config, timeout=12
+                    ).strip()
                 # 여러 줄 OCR 결과를 한 줄로 정리
                 text = " ".join(line.strip() for line in text.splitlines() if line.strip())
 
@@ -110,6 +140,12 @@ class OCRExtractor:
         return segments
 
 
+@lru_cache(maxsize=2)
+def _whisper_model(model_path):
+    from faster_whisper import WhisperModel
+    return WhisperModel(model_path, device='cpu', compute_type='int8', local_files_only=True)
+
+
 class STTExtractor:
     """영상 오디오 트랙에서 발화 텍스트 추출 (faster-whisper)"""
 
@@ -120,19 +156,13 @@ class STTExtractor:
 
     def _load_model(self):
         if self._model is None:
-            try:
-                from faster_whisper import WhisperModel
-            except ImportError as e:
-                raise ImportError(
-                    "faster-whisper가 설치되어 있지 않습니다. "
-                    "`pip install faster-whisper` 로 설치하세요."
-                ) from e
-            self._model = WhisperModel(self.model_size, device="cpu", compute_type="int8")
+            self._model = _whisper_model(os.environ.get('FOOD_AD_STT_DIR',self.model_size))
         return self._model
 
     def _extract_audio(self, video_path: Path, out_path: Path) -> None:
         _run_ffmpeg(
-            ["-i", str(video_path), "-vn", "-ac", "1", "-ar", "16000", str(out_path)]
+            ["-i", str(video_path), "-t", str(MAX_VIDEO_SECONDS), "-vn", "-ac", "1", "-ar", "16000",
+             "-c:a", "pcm_s16le", str(out_path)]
         )
 
     def extract(self, video_path: Path) -> list[TimedText]:
@@ -142,8 +172,13 @@ class STTExtractor:
             audio_path = Path(tmp) / "audio.wav"
             self._extract_audio(video_path, audio_path)
 
+            import numpy as np
+            with wave.open(str(audio_path),'rb') as source:
+                if (source.getnchannels(),source.getsampwidth(),source.getframerate()) != (1,2,16000):
+                    raise ValueError('Expected mono 16 kHz PCM')
+                samples=np.frombuffer(source.readframes(source.getnframes()),dtype='<i2').astype(np.float32)/32768
             segments_iter, _info = model.transcribe(
-                str(audio_path), language=self.language, vad_filter=True
+                samples, language=self.language, vad_filter=True
             )
 
             segments = [
@@ -210,7 +245,7 @@ def check_dependencies() -> dict[str, bool]:
     main.py 실행 전에 호출해서 뭐가 빠졌는지 바로 알 수 있게 함.
     """
     status = {}
-    status["ffmpeg"] = shutil.which("ffmpeg") is not None
+    status["ffmpeg"] = shutil.which(_ffmpeg_command()) is not None
     status["tesseract"] = shutil.which("tesseract") is not None
     try:
         import pytesseract as _  # noqa
