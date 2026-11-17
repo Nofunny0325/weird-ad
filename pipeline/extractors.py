@@ -27,6 +27,7 @@ from PIL import Image
 import pytesseract
 
 MAX_VIDEO_SECONDS = 180
+DEFAULT_STT_DIR = Path(__file__).resolve().parents[1] / 'storage' / 'models' / 'whisper-small'
 _INPUT_OPTIONS = ['-protocol_whitelist','file,pipe','-format_whitelist','mov,matroska,webm']
 
 
@@ -156,7 +157,10 @@ class STTExtractor:
 
     def _load_model(self):
         if self._model is None:
-            self._model = _whisper_model(os.environ.get('FOOD_AD_STT_DIR',self.model_size))
+            model_path = os.environ.get('FOOD_AD_STT_DIR')
+            if not model_path and self.model_size == 'small' and (DEFAULT_STT_DIR / 'model.bin').is_file():
+                model_path = str(DEFAULT_STT_DIR)
+            self._model = _whisper_model(model_path or self.model_size)
         return self._model
 
     def _extract_audio(self, video_path: Path, out_path: Path) -> None:

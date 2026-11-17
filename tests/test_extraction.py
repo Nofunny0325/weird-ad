@@ -1,3 +1,5 @@
+import os
+import tempfile
 import unittest
 import wave
 from pathlib import Path
@@ -43,6 +45,17 @@ class ExtractionTests(unittest.TestCase):
         stt._model=SimpleNamespace(transcribe=transcribe)
         with patch.object(stt,'_extract_audio',fake_audio):
             self.assertEqual(stt.extract(Path('fixture.mp4')),[TimedText('문장',1.,2.,'stt')])
+
+    def test_installed_whisper_uses_its_directory_without_a_hub_alias(self):
+        with tempfile.TemporaryDirectory() as temp:
+            model_dir = Path(temp)
+            (model_dir / 'model.bin').touch()
+            with patch.dict(os.environ) as env, \
+                 patch('pipeline.extractors.DEFAULT_STT_DIR', model_dir), \
+                 patch('pipeline.extractors._whisper_model') as load:
+                env.pop('FOOD_AD_STT_DIR', None)
+                STTExtractor()._load_model()
+            load.assert_called_once_with(str(model_dir))
 
 
 if __name__=='__main__':

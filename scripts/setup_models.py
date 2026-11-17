@@ -43,12 +43,13 @@ def setup_e5(directory):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--e5-dir',type=Path,default=ROOT/'storage'/'models'/'e5')
-    parser.add_argument('--with-stt',action='store_true',help='Also cache the optional Whisper model')
+    parser.add_argument('--with-stt',action='store_true',help='Also install the optional Whisper model')
     args=parser.parse_args()
     setup_e5(args.e5_dir)
     if args.with_stt:
         from huggingface_hub import snapshot_download
         snapshot_download('Systran/faster-whisper-small',revision='536b0662742c02347bc0e980a01041f333bce120',
+            local_dir=ROOT/'storage'/'models'/'whisper-small',
             allow_patterns=['config.json','model.bin','tokenizer.json','vocabulary.*'],token=False)
 
 

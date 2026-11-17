@@ -25,7 +25,7 @@ python -m venv .venv
 
 브라우저에서 http://127.0.0.1:5000 을 엽니다. ffmpeg가 PATH에 없으면 `FOOD_AD_FFMPEG`에 실행 파일 경로를 지정할 수 있습니다. Tesseract는 PATH에 추가해야 합니다.
 
-모델 설치는 공개 가중치를 한 번 받는 과정입니다. `setup_models.py`는 지정 버전의 E5 모델·토크나이저(합계 약 135MB)를 내려받고 SHA‑256을 확인합니다. 음성 인식도 사용하려면 `scripts/setup_models.py --with-stt`를 실행하세요. Whisper는 추론 중 다운로드하지 않으며, 로컬 캐시나 `FOOD_AD_STT_DIR`의 모델만 사용합니다. 둘 다 API 키가 필요하지 않습니다. 오프라인 장비로 옮기려면 로컬 모델 디렉터리와 Python 패키지를 미리 준비합니다.
+모델 설치는 공개 가중치를 한 번 받는 과정입니다. `setup_models.py`는 지정 버전의 E5 모델·토크나이저(합계 약 135MB)를 내려받고 SHA‑256을 확인합니다. 음성 인식도 사용하려면 `scripts/setup_models.py --with-stt`를 실행하세요. Whisper도 로컬에서 실행하며, 설치 경로는 `storage/models/whisper-small`입니다. 다른 로컬 모델은 `FOOD_AD_STT_DIR`로 지정할 수 있습니다. 둘 다 API 키가 필요하지 않습니다. 오프라인 장비로 옮기려면 로컬 모델 디렉터리와 Python 패키지를 미리 준비합니다.
 
 ```powershell
 .\.venv\Scripts\python.exe -X utf8 main.py --text "이걸 먹고부터 병원에서 받아 온 약을 챙길 필요도 없었어요."
