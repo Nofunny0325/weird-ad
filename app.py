@@ -34,6 +34,11 @@ def index():
     return page()
 
 
+@app.get('/api/health')
+def health():
+    return {'status': 'ok'}
+
+
 @app.post('/review-text')
 def review_text():
     transcript = request.form.get('transcript', '').strip()

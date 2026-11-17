@@ -14,6 +14,12 @@ class LocalWebTests(unittest.TestCase):
     def setUpClass(cls):
         cls.engine = JudgeEngine.from_local_data(model_dir=None)
 
+    def test_health_check_does_not_load_models(self):
+        with patch.object(web, 'default_engine', side_effect=AssertionError('health loaded a model')):
+            response = web.app.test_client().get('/api/health')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {'status': 'ok'})
+
     def test_text_without_keyword_is_screened(self):
         with patch.object(web,'default_engine',return_value=self.engine):
             response = web.app.test_client().post('/review-text', data={
