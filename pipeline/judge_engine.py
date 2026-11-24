@@ -48,6 +48,7 @@ class Finding:
     source_url: str
     references: list = field(default_factory=list)
     context: str = ''
+    model_explanation: str = ''
 
 
 @dataclass
@@ -64,6 +65,11 @@ class JudgeResult:
     product: dict | None = None
     scanned_windows: int = 0
     review_scope: str = '추출된 자막·음성·입력 문장의 선별 검토'
+    context_status: str = 'not_requested'
+    context_model: str = ''
+    context_scanned: int = 0
+    context_total: int = 0
+    extraction_providers: dict[str, str] = field(default_factory=dict)
 
     def to_dict(self):
         return {**asdict(self), 'verdict': self.verdict.value}
@@ -165,9 +171,10 @@ class JudgeEngine:
             rule.get('contrast',''),rule.get('legal_basis',''),rule.get('source_title',''),rule.get('source_url',''),
             [self.references[r] for r in rule.get('reference_ids',[])],context)
 
-    def judge(self, extracted: ExtractedText, product_id: str = '') -> JudgeResult:
+    def judge(self, extracted: ExtractedText, product_id: str = '', *, groq_client=None) -> JudgeResult:
         product=self.products.get(product_id.strip())
         result=JudgeResult(extraction_status=dict(extracted.channel_status), product=product,
+            extraction_providers=dict(extracted.providers),
             product_status='등록 제품 대조' if product else '미확인', limitations=list(extracted.warnings)+[
                 '판매페이지·전후 사진 등 비텍스트 연출, 성분 실측, 인체시험 및 자율심의는 별도 확인이 필요합니다.',
                 '비교 문구 및 유사 사례는 검토 근거입니다. 제품 전체의 적법성을 인증하지 않습니다.'])
@@ -226,6 +233,9 @@ class JudgeEngine:
             result.reasons.append('관련 표현 또는 비교 기준을 찾았습니다. 유사도나 단어 일치만으로 위반을 판정하지 않습니다.')
         else:
             result.reasons.append('추출 텍스트에서 주요 후보를 찾지 못했습니다. 사전에 없는 주장이나 미추출 구간은 별도 확인이 필요합니다.')
+        if groq_client is not None:
+            from .context_review import enhance_review
+            return enhance_review(self, extracted, result, groq_client)
         return result
 
 

@@ -16,6 +16,7 @@ from pipeline.extractors import (
     check_dependencies, probe_video,
 )
 from pipeline.judge_engine import ROOT, default_engine
+from pipeline.groq_client import configured_client
 
 app = Flask(__name__)
 app.config.update(MAX_CONTENT_LENGTH=64 * 1024 * 1024, LOW_MEMORY=os.getenv('FOOD_AD_LOW_MEMORY') == '1')
@@ -27,7 +28,8 @@ MAX_TEXT_CHARS = 12_000
 
 def page(*, result=None, full_text='', filename='', error='', status=200):
     return render_template('index.html', deps=check_dependencies(), result=result, error=error,
-        filename=filename, full_text=full_text, max_duration=MAX_VIDEO_SECONDS, max_text=MAX_TEXT_CHARS), status
+        filename=filename, full_text=full_text, max_duration=MAX_VIDEO_SECONDS, max_text=MAX_TEXT_CHARS,
+        cloud_ready=bool(os.getenv('GROQ_API_KEY', '').strip())), status
 
 
 def single_analysis_on_small_hosts(view):
@@ -50,6 +52,14 @@ def trim_model_pages():
         trim = getattr(CDLL(None), 'malloc_trim', None)
         if trim is not None:
             trim(0)
+
+
+def review_extracted(extracted, product_id, client):
+    result = default_engine().judge(extracted, product_id, groq_client=client)
+    if request.form.get('use_groq') == 'on' and client is None:
+        result.context_status = 'unavailable'
+        result.limitations.append('Groq 연결 설정이 없어 로컬 기준으로 검토했습니다.')
+    return result
 
 
 @app.errorhandler(413)
@@ -76,7 +86,8 @@ def review_text():
     # Offsets are not timestamps for pasted transcripts; the UI labels this channel separately.
     extracted=ExtractedText('text',stt_segments=[TimedText(transcript,0,0,'text')],
         channel_status={'ocr':'skipped','stt':'skipped'})
-    result=default_engine().judge(extracted, request.form.get('product_id',''))
+    client = configured_client() if request.form.get('use_groq') == 'on' else None
+    result = review_extracted(extracted, request.form.get('product_id', ''), client)
     return page(result=result,full_text=transcript,filename='입력 문장')
 
 
@@ -98,14 +109,15 @@ def analyze():
             if duration>MAX_VIDEO_SECONDS:
                 return page(error=f'{MAX_VIDEO_SECONDS}초 이하 영상만 분석할 수 있습니다.',status=400)
             run_stt = request.form.get('run_stt') == 'on'
-            limit_memory = app.config['LOW_MEMORY'] and run_stt
+            client = configured_client() if request.form.get('use_groq') == 'on' else None
+            limit_memory = app.config['LOW_MEMORY']
             if limit_memory:
                 default_engine.cache_clear()
                 trim_model_pages()
             extracted = TextExtractionService().extract_all(
-                uuid.uuid4().hex, path, run_stt=run_stt, isolate_stt=limit_memory,
+                uuid.uuid4().hex, path, run_stt=run_stt, isolate_stt=limit_memory, groq_client=client,
             )
-            result=default_engine().judge(extracted,request.form.get('product_id',''))
+            result = review_extracted(extracted, request.form.get('product_id', ''), client)
             return page(result=result,full_text=extracted.full_text(),filename=Path(file.filename or '동영상').name)
         except (FileNotFoundError, TimeoutError):
             return page(error='영상 처리 도구를 실행할 수 없습니다. ffmpeg 설치 상태를 확인하세요.',status=503)

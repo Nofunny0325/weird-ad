@@ -1,6 +1,6 @@
 # 건강기능식품 광고 검토
 
-광고 영상을 올리거나 광고 문장을 입력하면, 사전에 걸리는 말이 없어도 화면 글자와 발화의 각 구간을 검토합니다. 분석은 서버 CPU에서 실행하며 영상이나 전사본을 외부 모델 API로 전송하지 않습니다.
+광고 영상을 올리거나 광고 문장을 입력하면, 사전에 걸리는 말이 없어도 화면 글자와 발화의 각 구간을 검토합니다. 로컬 규칙·E5와 선택적 Groq 보강 검토를 함께 사용할 수 있습니다. Groq를 선택하면 음성 검토용 오디오, 추출·입력 문장 및 대조할 제품 자료를 Groq로 전송합니다.
 
 | 결과 | 의미 |
 |---|---|
@@ -33,9 +33,19 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -X utf8 -m unittest discover -s tests -v
 ```
 
+## Groq 보강 검토
+
+Groq 무료 계정에서 이 서비스용 API 키를 만들고 Render 서비스의 Environment에 `GROQ_API_KEY`를 비밀값으로 등록합니다. 키를 코드나 Git 저장소에 넣지 마세요. 환경변수를 적용한 배포가 완료되면 업로드·문장 입력 폼에서 Groq 보강 검토를 선택할 수 있습니다. 명령줄은 `main.py --groq --text "검토할 문장"` 또는 `main.py --groq --video 광고.mp4`로 실행합니다.
+
+기본 모델은 음성 인식 `whisper-large-v3`, 문맥 검토 `openai/gpt-oss-120b`입니다. `GROQ_STT_MODEL`과 `GROQ_REVIEW_MODEL`로 선택을 변경할 수 있으며, 문맥 모델은 strict JSON Schema와 `reasoning_effort`를 지원해야 합니다. 문맥 검토는 등록된 32개 기준과 제품 기록을 전달하고, 금지어 일치 여부와 관계없이 추출 문장을 순서대로 검토합니다. 긴 문장은 겹치는 구간으로 나누며, 원문 인용과 기준 ID를 코드에서 검증합니다. 모델 제안은 검토 후보로 표시합니다.
+
+외부 요청은 시간·입력·응답 크기를 제한하고, 429 응답 후에는 `Retry-After` 동안 같은 API로 재요청하지 않습니다. 음성 API 실패 시 로컬 Whisper로 이어가며, 문맥 API 실패·중단 시 기존 로컬 결과와 Groq가 검토한 구간 수를 표시합니다. 요청 내용과 모델 결과를 별도 캐시에 저장하지 않습니다. 기본 메모리 제한 환경에서는 한 번에 한 요청을 처리합니다.
+
+무료 플랜에도 요청·토큰·음성 사용량 한도가 있습니다. 실제 계정의 Limits에서 확인하세요. 한국어 실광고에 대한 정확도와 처리 속도는 같은 평가 자료로 측정해야 합니다. [Groq 사용 한도](https://console.groq.com/docs/rate-limits) · [음성 인식](https://console.groq.com/docs/speech-to-text) · [구조화 출력](https://console.groq.com/docs/structured-outputs) · [데이터 처리](https://console.groq.com/docs/your-data)
+
 ## Docker
 
-`docker build -t weird-ad .`로 공개 E5 모델이 포함된 이미지를 만들고, `docker run --rm -p 5000:5000 weird-ad`로 실행합니다. 빌드에 `--build-arg WITH_STT=1`을 추가하면 메모리 사용량이 적은 다국어 Whisper `base`가 포함됩니다. 여유 메모리가 있는 환경에서 `small`을 쓰려면 `--build-arg WHISPER_MODEL=small`을 추가합니다. 외부 네트워크는 모델 설치 또는 빌드에만 필요합니다. 영상은 요청 중 임시 보관하며, 지원 길이는 180초 이하이고 업로드 요청은 64 MiB 미만입니다.
+`docker build -t weird-ad .`로 공개 E5 모델이 포함된 이미지를 만들고, `docker run --rm -p 5000:5000 weird-ad`로 실행합니다. 빌드에 `--build-arg WITH_STT=1`을 추가하면 메모리 사용량이 적은 다국어 Whisper `base`가 포함됩니다. 여유 메모리가 있는 환경에서 `small`을 쓰려면 `--build-arg WHISPER_MODEL=small`을 추가합니다. 로컬 모델 설치에는 다운로드 연결이, Groq 보강 검토에는 API 연결이 필요합니다. 영상은 요청 중 임시 보관하며, 지원 길이는 180초 이하이고 업로드 요청은 64 MiB 미만입니다.
 
 Docker는 메모리가 적은 서버에서도 실행할 수 있도록 한 번에 한 요청을 검토합니다. 충분한 메모리가 있는 서버에서는 `docker run`에 `-e FOOD_AD_LOW_MEMORY=0`을 추가할 수 있습니다.
 

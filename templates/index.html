@@ -29,7 +29,7 @@
 <body>
   <header>
     <h1>건강기능식품 광고 검토</h1>
-    <p>화면 글자와 음성을 구간별로 검사하고, 관련 표현과 검토 근거를 보여줍니다. 분석은 이 서버에서 실행됩니다.</p>
+    <p>화면 글자와 음성을 구간별로 검사하고, 문제 구절과 관련 기준을 함께 보여줍니다.</p>
   </header>
   {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
   <div class="grid">
@@ -38,7 +38,9 @@
       <label for="video">광고 영상 파일</label>
       <input type="file" name="video" id="video" accept=".mp4,.mov,.mkv,.webm" required>
       <p class="muted">MP4, MOV, MKV, WEBM · {{ max_duration }}초 이하 · 요청 크기 64 MiB 미만</p>
-      <label><input type="checkbox" name="run_stt" {% if deps.faster_whisper %}checked{% endif %}> 저장된 음성 인식 모델 사용</label>
+      <label><input type="checkbox" name="run_stt" {% if deps.faster_whisper or cloud_ready %}checked{% endif %}> 음성도 검토</label>
+      <label><input type="checkbox" name="use_groq" {% if cloud_ready %}checked{% else %}disabled{% endif %}> Groq 보강 검토</label>
+      <p class="muted">{% if cloud_ready %}선택하면 추출 문장과 입력한 제품 자료를 Groq로 전송해 문맥을 검토합니다. 음성 검토 시 오디오도 전송합니다. 연결 실패 시 로컬 검사로 이어갑니다.{% else %}현재 로컬 검토를 사용합니다. Groq 연결이 준비되면 보강 검토를 선택할 수 있습니다.{% endif %}</p>
       <label for="product-video">제품 식별번호 <span class="muted">(선택)</span></label>
       <input type="text" id="product-video" name="product_id" maxlength="48" autocomplete="off">
       <p class="muted">서버에 등록된 제품 번호가 있으면 인정 문구와 대조합니다.</p>
@@ -51,6 +53,8 @@
       <h2>문장 검토</h2>
       <label for="transcript">광고 자막이나 발화</label>
       <textarea id="transcript" name="transcript" maxlength="{{ max_text }}" required></textarea>
+      <label><input type="checkbox" name="use_groq" {% if cloud_ready %}checked{% else %}disabled{% endif %}> Groq 보강 검토</label>
+      {% if cloud_ready %}<p class="muted">선택하면 입력 문장과 입력한 제품 자료를 Groq로 전송해 문맥을 검토합니다.</p>{% endif %}
       <label for="product-text">제품 식별번호 <span class="muted">(선택)</span></label>
       <input type="text" id="product-text" name="product_id" maxlength="48" autocomplete="off">
       <p class="muted">앞뒤 문장을 같이 넣으면 주장과 주의 문구를 구분하는 데 도움이 됩니다.</p>
@@ -62,19 +66,23 @@
     <h2>검토 결과 · {{ filename }}</h2>
     <p><strong class="badge {{ 'unfair' if result.verdict.value == '위반 의심' else '' }}">{{ result.verdict.value }}</strong></p>
     <p class="meta"><span class="model">{{ result.model_mode }}</span> · 검토 구간 {{ result.scanned_windows }}개 · 제품 {{ result.product_status }}</p>
+    {% if result.context_status != 'not_requested' %}
+      <p class="meta">Groq 문맥 검토 {{ {'completed':'완료','partial':'일부 완료','failed':'실패','empty':'텍스트 없음','unavailable':'연결 대기'}.get(result.context_status,result.context_status) }}{% if result.context_total %} · {{ result.context_scanned }}/{{ result.context_total }}개 구간{% endif %}</p>
+    {% endif %}
     {% if result.product %}
       <p><a href="{{ result.product.source_url }}" rel="noopener noreferrer">{{ result.product.name }}의 인정 기능성 자료</a> <span class="muted">({{ result.product.as_of }} 기준)</span></p>
     {% endif %}
     {% for reason in result.reasons %}<p>{{ reason }}</p>{% endfor %}
     {% for f in result.findings %}
       <article class="evidence {{ f.kind }}">
-        <p class="meta">{{ {'explicit':'직접 확인된 주장', 'combined':'자막과 발화가 합쳐진 후보', 'similar':'유사 문장 후보', 'recognized':'등록 문구 대조'}[f.kind] }} · {{ f.rule_id }}
+        <p class="meta">{{ {'explicit':'직접 확인된 주장', 'combined':'자막과 발화가 합쳐진 후보', 'similar':'유사 문장 후보', 'recognized':'등록 문구 대조', 'contextual':'문맥 검토 후보'}[f.kind] }} · {{ f.rule_id }}
           · {{ {'ocr':'화면 글자','stt':'음성','ocr+stt':'화면과 음성','text':'입력 문장'}.get(f.source,f.source) }}
           {% if f.source != 'text' %} · {{ '%.1f'|format(f.start_sec) }}–{{ '%.1f'|format(f.end_sec) }}초{% endif %}</p>
         <h3>{{ f.title }}</h3>
         <blockquote>{{ f.sentence }}</blockquote>
         <p>{{ f.check }}</p>
-        {% if f.kind in ('similar','combined') %}<p class="muted">아래는 관련 검토 기준입니다. 이 구간의 위반을 확정하지 않습니다.</p>{% endif %}
+        {% if f.model_explanation %}<p>{{ f.model_explanation }}</p>{% endif %}
+        {% if f.kind in ('similar','combined','contextual') %}<p class="muted">아래는 관련 검토 기준입니다. 이 구간의 위반을 확정하지 않습니다.</p>{% endif %}
         {% if f.comparison %}<p><strong>비교 예시:</strong> {{ f.comparison }}</p>{% endif %}
         {% if f.source_url %}<p class="meta"><a href="{{ f.source_url }}" rel="noopener noreferrer">{{ f.source_title }}</a>{% if f.legal_basis %} · {{ f.legal_basis }}{% endif %}</p>{% endif %}
         {% if f.references %}
@@ -96,7 +104,7 @@
     <details class="panel"><summary>추출 내용과 확인하지 못한 항목</summary>
       {% if filename != '입력 문장' %}
       <ul>{% for channel, status in result.extraction_status.items() %}
-        <li>{{ '화면 글자' if channel == 'ocr' else '음성' }}: {{ {'completed':'추출 완료','empty':'추출된 텍스트 없음','failed':'추출 실패','skipped':'실행 안 함'}.get(status,status) }}</li>
+        <li>{{ '화면 글자' if channel == 'ocr' else '음성' }}: {{ {'completed':'추출 완료','empty':'추출된 텍스트 없음','failed':'추출 실패','skipped':'실행 안 함'}.get(status,status) }}{% if result.extraction_providers.get(channel) %} · {{ 'Groq' if result.extraction_providers[channel] == 'groq' else '로컬' }}{% endif %}</li>
       {% endfor %}</ul>{% endif %}
       <ul>{% for note in result.limitations %}<li>{{ note }}</li>{% endfor %}</ul>
       {% if full_text %}<pre>{{ full_text }}</pre>{% endif %}

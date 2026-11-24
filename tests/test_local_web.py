@@ -51,6 +51,25 @@ class LocalWebTests(unittest.TestCase):
         response=web.app.test_client().post('/analyze',data={'video':(io.BytesIO(b'fixture'),'ad.exe')})
         self.assertEqual(response.status_code,400)
 
+    def test_groq_is_used_only_when_selected_and_missing_key_keeps_local_review(self):
+        client = Mock()
+        client.complete.return_value = {'choices': [{'finish_reason': 'stop', 'message': {'content': '{"findings": []}'}}]}
+        client.model = 'test-model'
+        for selected, configured in [(False, True), (True, True), (True, False)]:
+            with self.subTest(selected=selected, configured=configured), \
+                 patch.object(web, 'configured_client', return_value=client if configured else None) as lookup, \
+                 patch.object(web, 'default_engine', return_value=self.engine):
+                response = web.app.test_client().post('/review-text', data={
+                    'transcript': '당뇨를 완치합니다.', 'use_groq': 'on' if selected else ''})
+            self.assertEqual(response.status_code, 200)
+            body = response.get_data(as_text=True)
+            self.assertIn('위반 의심', body)
+            self.assertEqual(lookup.called, selected)
+            if selected and configured:
+                self.assertIn('Groq 문맥 검토 완료', body)
+            elif selected:
+                self.assertIn('Groq 연결 설정이 없어', body)
+
 
     def test_memory_constrained_upload_releases_models_between_stages(self):
         order = Mock()

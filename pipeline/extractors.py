@@ -16,6 +16,7 @@
 from dataclasses import asdict, dataclass, field
 import json
 import logging
+import math
 from pathlib import Path
 import subprocess
 import sys
@@ -25,6 +26,8 @@ import os
 import re
 import wave
 from functools import lru_cache
+
+from .groq_client import GroqError
 
 from PIL import Image
 import pytesseract
@@ -73,6 +76,7 @@ class ExtractedText:
     stt_segments: list[TimedText] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     channel_status: dict[str, str] = field(default_factory=dict)
+    providers: dict[str, str] = field(default_factory=dict)
 
     def all_segments(self) -> list[TimedText]:
         """시간순 정렬된 전체 텍스트 조각"""
@@ -215,6 +219,34 @@ class STTExtractor:
         return segments
 
 
+def _extract_groq_speech(video_path: Path, client) -> list[TimedText]:
+    with tempfile.TemporaryDirectory() as temp:
+        audio = Path(temp) / 'audio.wav'
+        STTExtractor()._extract_audio(video_path, audio)
+        with wave.open(str(audio), 'rb') as source:
+            duration = source.getnframes() / source.getframerate()
+        response = client.transcribe(audio)
+    values = response.get('segments')
+    full_text = response.get('text', '')
+    if not isinstance(full_text, str) or not isinstance(values, list) or len(values) > 2000:
+        raise GroqError('invalid_response')
+    segments = []
+    for value in values:
+        if not isinstance(value, dict):
+            raise GroqError('invalid_response')
+        start, end, text = value.get('start'), value.get('end'), value.get('text')
+        if (type(start) not in (int, float) or type(end) not in (int, float) or
+                not math.isfinite(start) or not math.isfinite(end) or
+                not 0 <= start < end <= min(duration, MAX_VIDEO_SECONDS) + 0.5 or
+                not isinstance(text, str) or len(text) > 12000):
+            raise GroqError('invalid_response')
+        if text.strip():
+            segments.append(TimedText(text.strip(), float(start), float(end), 'stt'))
+    if not segments and full_text.strip():
+        raise GroqError('invalid_response')
+    return segments
+
+
 class TextExtractionService:
     """OCR + STT를 묶어서 실행하는 상위 서비스"""
 
@@ -223,10 +255,12 @@ class TextExtractionService:
         self.stt = stt or STTExtractor()
 
     def extract_all(
-        self, video_id: str, video_path: Path, run_stt: bool = True, *, isolate_stt: bool = False
+        self, video_id: str, video_path: Path, run_stt: bool = True, *, isolate_stt: bool = False,
+        groq_client=None,
     ) -> ExtractedText:
         warnings = []
         status = {}
+        providers = {'ocr': 'local'}
         ocr_segments = []
         try:
             ocr_segments = self.ocr.extract(video_path)
@@ -240,7 +274,17 @@ class TextExtractionService:
         if run_stt:
             try:
                 extract_speech = _extract_speech_in_worker if isolate_stt else self.stt.extract
-                stt_segments = extract_speech(video_path)
+                if groq_client is not None:
+                    try:
+                        stt_segments = _extract_groq_speech(video_path, groq_client)
+                        providers['stt'] = 'groq'
+                    except GroqError as error:
+                        warnings.append(error.user_message)
+                        stt_segments = extract_speech(video_path)
+                        providers['stt'] = 'local'
+                else:
+                    stt_segments = extract_speech(video_path)
+                    providers['stt'] = 'local'
                 status['stt'] = 'completed' if stt_segments else 'empty'
                 if not stt_segments:
                     warnings.append('음성을 추출하지 못했습니다. 무음 영상인지 인식 누락인지 확인이 필요합니다.')
@@ -257,6 +301,7 @@ class TextExtractionService:
             stt_segments=stt_segments,
             warnings=warnings,
             channel_status=status,
+            providers=providers,
         )
 
 
