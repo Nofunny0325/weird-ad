@@ -89,7 +89,7 @@ class ContextReviewTests(unittest.TestCase):
         extracted = ExtractedText('test', stt_segments=[TimedText(text, 3, 7, 'stt')])
         client = Mock(model='openai/gpt-oss-120b')
         client.complete.return_value = completion([{
-            'segment_id': 0, 'rule_id': 'CTX-09', 'quote': text,
+            'segment_id': 0, 'rule_id': 'CTX-09',
             'reason': '혈행 기능을 혈관 내 물질 제거로 확대했습니다.', 'stance': 'claim'}])
         result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
         item = next(item for item in result.findings if item.kind == 'contextual')
@@ -99,6 +99,10 @@ class ContextReviewTests(unittest.TestCase):
         self.assertEqual(result.context_status, 'completed')
         sent = json.loads(client.complete.call_args.args[0][1]['content'])
         self.assertEqual(sent['segments'][0]['text'], text)
+        schema = client.complete.call_args.args[1]['properties']['findings']['items']['properties']
+        self.assertNotIn('quote', schema)
+        self.assertEqual(schema['segment_id']['enum'], [0])
+        self.assertEqual(set(schema['rule_id']['enum']), set(self.engine.rules))
 
     def test_unknown_rule_and_invented_quote_are_rejected(self):
         extracted = ExtractedText('test', stt_segments=[TimedText('맛이 고소합니다.', 0, 1, 'stt')])
@@ -122,7 +126,9 @@ class ContextReviewTests(unittest.TestCase):
             return completion([])
         client.complete.side_effect = review
         result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
-        self.assertEqual({item['segment_id'] for item in sent}, set(range(5)))
+        combined = ' '.join(item['text'] for item in sent)
+        for index in range(5):
+            self.assertIn(f'{index}번째 광고 문구입니다.', combined)
         self.assertEqual(result.context_status, 'completed')
         client.complete.side_effect = [completion([]), GroqError('rate_limited')]
         result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
@@ -146,17 +152,17 @@ class ContextReviewTests(unittest.TestCase):
         extracted = ExtractedText('test', stt_segments=[TimedText(text, 0, 3, 'stt')])
         client = Mock(model='test-model')
         client.complete.return_value = completion([{
-            'segment_id': 0, 'rule_id': 'CTX-01', 'quote': '혈압약을 대신',
+            'segment_id': 0, 'rule_id': 'CTX-01',
             'reason': '약을 대체하는 주장입니다.', 'stance': 'claim'}])
         result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
         self.assertFalse(any(item.kind == 'contextual' for item in result.findings))
 
-    def test_partial_quote_displays_complete_source_clause(self):
+    def test_clause_id_displays_complete_source_clause(self):
         text = '먹으면 혈관에 쌓인 찌꺼기가 쓸려 나갑니다.'
         extracted = ExtractedText('test', stt_segments=[TimedText(text, 0, 3, 'stt')])
         client = Mock(model='test-model')
         client.complete.return_value = completion([{
-            'segment_id': 0, 'rule_id': 'CTX-09', 'quote': '혈관에 쌓인 찌꺼기가',
+            'segment_id': 0, 'rule_id': 'CTX-09',
             'reason': '혈관 속 물질 제거를 암시합니다.', 'stance': 'claim'}])
         result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
         self.assertEqual(next(item.sentence for item in result.findings if item.kind == 'contextual'), text)

@@ -37,7 +37,7 @@ python -m venv .venv
 
 Groq 무료 계정에서 이 서비스용 API 키를 만들고 Render 서비스의 Environment에 `GROQ_API_KEY`를 비밀값으로 등록합니다. 키를 코드나 Git 저장소에 넣지 마세요. 환경변수를 적용한 배포가 완료되면 업로드·문장 입력 폼에서 Groq 보강 검토를 선택할 수 있습니다. 명령줄은 `main.py --groq --text "검토할 문장"` 또는 `main.py --groq --video 광고.mp4`로 실행합니다.
 
-기본 모델은 음성 인식 `whisper-large-v3`, 문맥 검토 `openai/gpt-oss-120b`입니다. `GROQ_STT_MODEL`과 `GROQ_REVIEW_MODEL`로 선택을 변경할 수 있으며, 문맥 모델은 strict JSON Schema와 `reasoning_effort`를 지원해야 합니다. 문맥 검토는 등록된 32개 기준과 제품 기록을 전달하고, 금지어 일치 여부와 관계없이 추출 문장을 순서대로 검토합니다. 긴 문장은 겹치는 구간으로 나누며, 원문 인용과 기준 ID를 코드에서 검증합니다. 모델 제안은 검토 후보로 표시합니다.
+기본 모델은 음성 인식 `whisper-large-v3`, 문맥 검토 `openai/gpt-oss-120b`입니다. `GROQ_STT_MODEL`과 `GROQ_REVIEW_MODEL`로 선택을 변경할 수 있으며, 문맥 모델은 strict JSON Schema와 `reasoning_effort`를 지원해야 합니다. 문맥 검토는 등록된 32개 기준과 제품 기록을 전달하고, 금지어 일치 여부와 관계없이 추출 문장을 순서대로 검토합니다. 모델은 제공된 문장 ID와 기준 ID에서만 선택합니다. 표시하는 인용문은 서버가 해당 원문에서 가져오며, 부정·주의 문구를 별도 확인합니다. 긴 문장은 겹치는 구간으로 나눕니다. 모델 제안은 검토 후보로 표시합니다.
 
 외부 요청은 시간·입력·응답 크기를 제한하고, 429 응답 후에는 `Retry-After` 동안 같은 API로 재요청하지 않습니다. 음성 API 실패 시 로컬 Whisper로 이어가며, 문맥 API 실패·중단 시 기존 로컬 결과와 Groq가 검토한 구간 수를 표시합니다. 요청 내용과 모델 결과를 별도 캐시에 저장하지 않습니다. 기본 메모리 제한 환경에서는 한 번에 한 요청을 처리합니다.
 
