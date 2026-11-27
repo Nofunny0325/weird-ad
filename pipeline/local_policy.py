@@ -36,7 +36,11 @@ def explicit_rule(text):
     if NON_CLAIM.search(text):
         return None
     if MED_REPLACE.search(text):
-        return 'CTX-11' if re.search(r'위고비|마운자로',text) else 'CTX-01'
+        if re.search(r'위고비|마운자로', text):
+            return 'CTX-11'
+        if re.search(r'당뇨|혈당|인슐린', text):
+            return 'CTX-01'
+        return 'CTX-03' if '수면제' in text else 'CTX-33'
     if (DISEASE_CLAIM.search(text) and (STRONG_CLAIM.search(text) or re.search(PRODUCT,text))) or (
             '완치' in text and re.search(PRODUCT,text)):
         for regex,rule in [(r'골다공증','CTX-02'),(r'불면증','CTX-03'),(r'당뇨','CTX-01'),
@@ -44,7 +48,7 @@ def explicit_rule(text):
                            (r'아토피|두통|염증','CTX-17'),(r'감기|독감','CTX-12'),(r'관절염','CTX-14')]:
             if re.search(regex,text):
                 return rule
-        return 'CTX-17'
+        return 'CTX-33'
     if VASCULAR.search(text):
         return 'CTX-09'
     if EXPERT.search(text):

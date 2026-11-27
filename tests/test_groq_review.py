@@ -167,6 +167,20 @@ class ContextReviewTests(unittest.TestCase):
         result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
         self.assertEqual(next(item.sentence for item in result.findings if item.kind == 'contextual'), text)
 
+    def test_cancer_claim_cannot_inherit_blood_sugar_ingredient_evidence(self):
+        text = '이 영양제는 내 몸에서 암세포만 골라 사냥합니다.'
+        extracted = ExtractedText('test', stt_segments=[TimedText(text, 0, 3, 'stt')])
+        client = Mock(model='test-model')
+        client.complete.return_value = completion([{
+            'segment_id': 0, 'rule_id': 'CTX-01',
+            'reason': '질병 치료 효능을 암시합니다.', 'stance': 'claim'}])
+        result = enhance_review(self.engine, extracted, self.engine.judge(extracted), client)
+        item = next(item for item in result.findings if item.kind == 'contextual')
+        self.assertEqual(item.rule_id, 'CTX-33')
+        self.assertFalse(item.references)
+        self.assertNotIn('혈당', item.check)
+        self.assertEqual(item.source_url, 'https://www.mfds.go.kr/wpge/m_660/de010410l001.do')
+
     def test_rate_limited_transcription_uses_local_speech_and_keeps_warning(self):
         client = Mock()
         client.transcribe.side_effect = GroqError('rate_limited')

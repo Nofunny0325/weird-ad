@@ -17,7 +17,7 @@ class LocalScreeningTests(unittest.TestCase):
         result = self.screen('이거 먹고 나면 병원에서 받아 온 약을 챙길 필요도 없더라고요.')
         self.assertEqual(result.verdict.value, '위반 의심')
         self.assertFalse(result.banned_hits or result.ambiguous_hits)
-        item = next(e for e in result.findings if e.rule_id == 'CTX-01')
+        item = next(e for e in result.findings if e.rule_id == 'CTX-33')
         self.assertEqual((item.start_sec, item.end_sec, item.source), (2, 5, 'stt'))
 
     def test_caution_and_negated_efficacy_are_not_a_positive_claim(self):

@@ -27,7 +27,7 @@ class LocalWebTests(unittest.TestCase):
         body = response.get_data(as_text=True)
         self.assertEqual(response.status_code,200)
         self.assertIn('위반 의심',body)
-        self.assertIn('CTX-01',body)
+        self.assertIn('CTX-33',body)
         self.assertIn('입력 문장',body)
 
     def test_uploaded_video_is_removed_on_success_and_on_validation_failure(self):
