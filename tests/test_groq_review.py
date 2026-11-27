@@ -68,6 +68,16 @@ class GroqClientTests(unittest.TestCase):
         self.assertEqual(caught.exception.code, 'unauthorized')
         self.assertNotIn('private-key', str(caught.exception))
 
+    def test_incomplete_structured_generation_is_reported_without_its_content(self):
+        client = GroqClient('private-key')
+        body = json.dumps({'error': {'code': 'json_validate_failed', 'failed_generation': 'private ad content'}}).encode()
+        error = HTTPError('https://api.groq.com', 400, 'invalid', {}, io.BytesIO(body))
+        with patch('pipeline.groq_client.urlopen', side_effect=error):
+            with self.assertRaises(GroqError) as caught:
+                client.complete([], {})
+        self.assertEqual(caught.exception.code, 'generation_incomplete')
+        self.assertNotIn('private ad content', str(caught.exception))
+
 
 class ContextReviewTests(unittest.TestCase):
     @classmethod

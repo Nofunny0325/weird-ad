@@ -27,6 +27,7 @@ class GroqError(Exception):
             'unauthorized': 'Groq 인증을 확인할 수 없어 로컬 검사로 이어갔습니다.',
             'timeout': 'Groq 응답 시간이 초과되어 로컬 검사로 이어갔습니다.',
             'invalid_response': 'Groq 응답의 원문 근거 또는 형식을 확인하지 못했습니다.',
+            'generation_incomplete': 'Groq 문맥 답변의 생성을 완료하지 못해 로컬 검사로 이어갔습니다.',
         }.get(self.code, 'Groq에 연결하지 못해 로컬 검사로 이어갔습니다.')
 
 
@@ -60,6 +61,14 @@ class GroqClient:
         except HTTPError as error:
             code = 'request_failed'
             seconds = 15
+            if error.code == 400:
+                try:
+                    body = json.loads(error.read(MAX_RESPONSE_BYTES))
+                except (ValueError, HTTPException, OSError):
+                    body = {}
+                detail = body.get('error', {}) if isinstance(body, dict) else {}
+                if isinstance(detail, dict) and detail.get('code') == 'json_validate_failed':
+                    code = 'generation_incomplete'
             if error.code == 429:
                 code = 'rate_limited'
                 try:
@@ -83,7 +92,7 @@ class GroqClient:
     def complete(self, messages, schema):
         payload = {
             'model': self.model, 'messages': messages, 'temperature': 0,
-            'max_completion_tokens': 3072,
+            'max_completion_tokens': 5120,
             'reasoning_effort': 'high',
             'response_format': {'type': 'json_schema', 'json_schema': {
                 'name': 'food_ad_review', 'strict': True, 'schema': schema,
